@@ -55,7 +55,7 @@ const LoginPage = () => {
               </p>
             </form>
             <div className='signup'>
-              <p>If you don't already use Internet Banking, it's simple to</p>
+              <p>If you don&apos;t already use Internet Banking, it&apos;s simple to</p>
 
               <Link href='/register' passHref>
                 <a className='btn-signup'>Register online</a>

@@ -51,9 +51,9 @@ const Hero = () => {
         />
         <div className='heroFlex'>
           <div className='content'>
-            <h1>“We're saving more than just energy”</h1>
+            <h1>“We are saving more than just energy”</h1>
             <p>
-            Find out how we've supported Island Delight and others in becoming a more sustainable business whilst reducing their costs
+            Find out how we&apos;ve supported Island Delight and others in becoming a more sustainable business whilst reducing their costs
             </p>
           </div>
 

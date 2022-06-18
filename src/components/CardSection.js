@@ -18,7 +18,7 @@ const CardSection = () => {
           <Col lg={4}>
             <div className="card">
               <h4 className="card-title">Foreign Exchange services</h4>
-              <p>We won't charge you for making international transfers and our commission-free Foreign Exchange services can help you manage currency fluctuation.</p>
+              <p>We won&apos;t charge you for making international transfers and our commission-free Foreign Exchange services can help you manage currency fluctuation.</p>
               <small><BsQuestionCircle className="icon" /> <a href="#"> Foreign Exchange services</a></small>
             </div>
           </Col>
