@@ -4,15 +4,17 @@ import Image from 'next/image'
 import userProfile from '../public/user.png'
 import Sidebar from './Sidebar'
 import { AuthContext } from '../context/Authcontext'
+import Logo from './Logo'
+import TradingWiget from './TradingWiget'
 
 const Layout = ({ children }) => {
   const { logout } = useContext(AuthContext)
 
   return (
-    <>
+    <div className="layoutContainer">
       <header className='account-header'>
         <div className='container'>
-          <h4 className='logo'>Wdremit</h4>
+          <Logo />
 
           <NavDropdown
             title={
@@ -34,13 +36,14 @@ const Layout = ({ children }) => {
           </NavDropdown>
         </div>
       </header>
-      <main className='container adminMain'>
-      <Sidebar />  
-      <article>
-        {children}
-      </article>
+      <TradingWiget />
+      <main className='adminMain'>
+        <Sidebar />  
+        <article className="mainContainer">
+          {children}
+        </article>
       </main>
-    </>
+    </div>
   )
 }
 

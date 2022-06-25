@@ -43,7 +43,7 @@ const SupportPage = () => {
                     <p className='modalSubHeading mb-4'>
                       Will you like to have live chat with an agent?
                     </p>
-                    <Link href='/'>
+                    <Link href='https://wa.link/7q2lll'>
                       <a className='chatBtn mt-4'>
                         <FaWhatsappSquare className='icon' />
                         Chat on WhatsApp now
@@ -57,7 +57,7 @@ const SupportPage = () => {
                       <AlertDismissible message='Message sent successfuly!' />
                     ) : null}
 
-                    <div className='formBody'>
+                    {/* <div className='formBody'>
                       <form onSubmit={handleSubmit(onSubmit)}>
                         <h5 className='formTitle'>Send Message</h5>
                         <div className='formControl'>
@@ -112,7 +112,7 @@ const SupportPage = () => {
                           </Button>
                         </div>
                       </form>
-                    </div>
+                    </div> */}
                   </div>
                 </div>
               </div>

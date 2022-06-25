@@ -21,7 +21,7 @@ export default function Home() {
       <ChooseSection />
       <SavingSection />
       <MobileSection />
-      <Link href='https://wa.link/nugajg'>
+      <Link href='https://wa.link/7q2lll'>
         <a target='_blank' className='liveChatBtn'>
           <FaWhatsappSquare className='icon' />
           Live Chat

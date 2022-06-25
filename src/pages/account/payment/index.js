@@ -10,7 +10,6 @@ import { formatToCurrency } from '../../../helpers'
 import { IoWalletSharp } from 'react-icons/io5'
 import Link from 'next/link'
 
-
 const SupportPage = ({ user, token }) => {
   const {
     register,
@@ -21,29 +20,33 @@ const SupportPage = ({ user, token }) => {
   // const [isAlert, setIsAlert] = useState(false)
   const [showModal, setShowModal] = useState(false)
 
-  console.log(user)
+  // console.log(user)
 
   const onSubmit = async (data) => {
+    setIsLoding(true)
     console.log(data)
-    const res = await fetch(`${API_URL}/transactions`, {
-      method: "POST",
+    const res = await fetch(`${API_URL}/users/${user?._id}/transactions`, {
+      method: 'POST',
       headers: {
-        'Content-Type': "application/json",
-        // Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
       },
-      body: JSON.stringify(data)
+      body: JSON.stringify(data),
     })
 
     const resData = await res.json()
 
-    console.log(resData)
 
-    setIsLoding(true)
-    // setShowModal(false)
-    setTimeout(() => {
-      // setShowModal(true)
+    if (res.ok) {
+      setShowModal(false)
+      setTimeout(() => {
+        setShowModal(true)
+        setIsLoding(false)
+      }, 3000)
+    } else {
+      console.log("error")
       setIsLoding(false)
-    }, 3000)
+    }
   }
 
   return (
@@ -53,36 +56,18 @@ const SupportPage = ({ user, token }) => {
         onClose={() => setShowModal(false)}
         data={user}
       />
-      <header className='accHeader'>
+      {/* <header className='accHeader'>
         <div className='title'>
           <h2>Proceed to payment</h2>
-          <p>{`Welcome, ${user?.firstname}  ${user?.lastname}`}</p>
         </div>
-      </header>
+      </header> */}
 
       <section className='accSection'>
         <div className='row'>
-          <div className='col-lg-5'>
-            <div className='balanceCard'>
-              <h6>
-                <IoWalletSharp className='balanceIcon' />
-                BALANCE
-              </h6>
-              <h3 className='balance'>
-                {user?.recieveCurrency}
-                {!user?.recieveAmount
-                  ? '0.00'
-                  : formatToCurrency(user?.recieveAmount)}
-              </h3>
-              <Link href='/'>
-                <a className='accountType'>Premier savings 08776767766</a>
-              </Link>
-            </div>
-          </div>
           <div className='col-lg-7 mx-auto'>
-            <div className='balanceCard'>
+            <div className='formCard'>
               <form onSubmit={handleSubmit(onSubmit)}>
-                <h5 className='formTitle'> Enter Account Details</h5>
+                <h4 className='formTitle'> Enter Account Details</h4>
                 <div className='formControl'>
                   <label htmlFor='name'>ACCOUNT NAME</label>
                   <input
@@ -96,7 +81,7 @@ const SupportPage = ({ user, token }) => {
                   <label htmlFor='accountNum'>ACCOUNT NUMBER</label>
                   <input
                     type='text'
-                    placeholder="Beneficiary Account Number"
+                    placeholder='Beneficiary Account Number'
                     {...register('accountNumber', { required: true })}
                   />
                   {errors.accountNum && (
@@ -125,13 +110,13 @@ const SupportPage = ({ user, token }) => {
                   <label htmlFor='accountNum'>AMOUNT</label>
                   <input
                     type='text'
-                    placeholder="Amount"
+                    placeholder='Amount'
                     {...register('amount', { required: true })}
                   />
                   {errors.amount && <small>Amount is required</small>}
                 </div>
                 <div className='formBtn'>
-                  <Button>
+                  <button className='paymentBtn'>
                     {isLoading ? (
                       <>
                         <Spinner
@@ -146,7 +131,7 @@ const SupportPage = ({ user, token }) => {
                     ) : (
                       'PROCEED'
                     )}
-                  </Button>
+                  </button>
                 </div>
               </form>
             </div>

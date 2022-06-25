@@ -5,8 +5,8 @@ import logo from '../public/img/logo.jpeg'
 const Logo = () => {
   return (
     <div className="logo">
-      <Image src={logo} alt="Logo" width="50" height="50" />
-      <h4>LLG-OnlinePay</h4>
+      <Image src={logo} alt="Logo" width="60" height="60" />
+       <h4> LLG-OnlinePay</h4>
     </div>
   )
 }

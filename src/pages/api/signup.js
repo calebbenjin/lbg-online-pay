@@ -2,7 +2,39 @@ import { API_URL } from '../../config/index'
 
 const signup = async (req, res) => {
   if (req.method === 'POST') {
-    const { firstname, lastname, email, password } = req.body
+    const {
+      firstname,
+      lastname,
+      email,
+      title,
+      accountType,
+      gender,
+      phone,
+      nationality,
+      currency,
+      idType,
+      dob,
+      passport,
+      address,
+      password,
+    } = req.body
+
+    console.log({
+      firstname,
+      lastname,
+      email,
+      title,
+      accountType,
+      gender,
+      phone,
+      nationality,
+      currency,
+      idType,
+      dob,
+      passport,
+      address,
+      password,
+    })
 
     const apiRes = await fetch(`${API_URL}/register`, {
       method: 'POST',
@@ -13,11 +45,23 @@ const signup = async (req, res) => {
         firstname,
         lastname,
         email,
-        password
+        title,
+        accountType,
+        gender,
+        phone,
+        nationality,
+        currency,
+        idType,
+        dob,
+        passport,
+        address,
+        password,
       }),
     })
 
     const apiData = await apiRes.json()
+
+    console.log(apiData)
 
     if (apiRes.ok) {
       res.setHeader('access-control-allow-credentials', true)

@@ -66,7 +66,7 @@ const Card = () => {
       <section className='accSection'>
         <div className='row'>
           <div className='col-lg-6 mx-auto'>
-            <div className='balanceCard'>
+            <div className='formCard'>
               <form onSubmit={handleSubmit(onSubmit)}>
                 <h5 className='formTitle'>Add card details to complete transaction</h5>
                 <div className='formControl'>
@@ -102,7 +102,7 @@ const Card = () => {
                   </div>
                 </div>
                 <div className='formBtn mt-4'>
-                  <Button>
+                  <button className='paymentBtn'>
                     {isLoading ? (
                       <>
                         <Spinner
@@ -117,7 +117,7 @@ const Card = () => {
                     ) : (
                       'COMPLETE TRANSACTION'
                     )}
-                  </Button>
+                  </button>
                 </div>
               </form>
             </div>

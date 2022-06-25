@@ -27,7 +27,7 @@ const SupportModal = ({ show, onClose }) => {
         <h5 className='modalSubHeading'>
           Will you like to have live chat with an agent?
         </h5>
-        <Link href='https://wa.link/nugajg'>
+        <Link href='https://wa.link/7q2lll'>
           <a className='chatBtn' target='_blank'>
             <FaWhatsappSquare className='icon' />
             Live Chat 

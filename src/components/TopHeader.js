@@ -2,37 +2,40 @@ import React from 'react'
 import { AiFillLock } from 'react-icons/ai'
 import { RiMapPinLine } from 'react-icons/ri'
 import { FaQuestion } from 'react-icons/fa'
+import Link from 'next/link'
 
 const TopHeader = () => {
   return (
-    <div className="topHeader">
-      <div className="container">
+    <div className='topHeader'>
+      <div className='container'>
         <nav>
-          <button className="btnActive">Personal</button>
+          <button className='btnActive'>Personal</button>
           <button>Business</button>
           <button>Private Banking</button>
           <button>International Banking</button>
         </nav>
         <nav>
-            <a>
+          <a>
+            <div>
+              <FaQuestion className='icon' />
+            </div>
+            <small>Help & support</small>
+          </a>
+          <a>
+            <div>
+              <RiMapPinLine className='icon' />
+            </div>
+            <small>Branch finder</small>
+          </a>
+          <Link href="/login">
+            <a className='loginIcon'>
               <div>
-                <FaQuestion className="icon" />
-              </div>
-              <small>Help & support</small>
-            </a>
-            <a>
-              <div>
-                <RiMapPinLine className="icon" />
-              </div>
-              <small>Branch finder</small>
-            </a>
-            <a>
-              <div>
-                <AiFillLock className="icon" />
+                <AiFillLock className='icon' />
               </div>
               <small>Login</small>
             </a>
-          </nav>
+          </Link>
+        </nav>
       </div>
     </div>
   )

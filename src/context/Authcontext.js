@@ -8,6 +8,7 @@ const AuthContext = createContext()
 const AuthProvider = ({ children }) => {
   const [isLoading, setIsLoading] = useState(false)
   const [isError, setIsError] = useState(false)
+  const [errorMessage, setErrorMessage] = useState('')
   const [user, setUser] = useState()
   const [checkTransfer, setCheckTransfer] = useState()
   const [supportData, setSupportData] = useState()
@@ -16,7 +17,6 @@ const AuthProvider = ({ children }) => {
   const [isAlert, setIsAlert] = useState(false)
 
   const router = useRouter()
-
 
   // useEffect(() => checkUserLoggedIn(), [])
 
@@ -53,7 +53,6 @@ const AuthProvider = ({ children }) => {
       }, 5000)
     }
   }
-
 
   const check = async ({ referenceNum, email }) => {
     setIsLoading(true)
@@ -125,14 +124,20 @@ const AuthProvider = ({ children }) => {
     }
   }
 
-
-  
-  const signup = async ({
-    firstname,
+  const signup = async ({firstname,
     lastname,
     email,
-    password
-  }) => {
+    title,
+    accountType,
+    gender,
+    phone,
+    nationality,
+    currency,
+    idType,
+    dob,
+    passport,
+    address,
+    password,}) => {
     setIsLoading(true)
     setTimeout(() => {
       setIsLoading(false)
@@ -146,14 +151,29 @@ const AuthProvider = ({ children }) => {
         firstname,
         lastname,
         email,
-        password
+        title,
+        accountType,
+        gender,
+        phone,
+        nationality,
+        currency,
+        idType,
+        dob,
+        passport,
+        address,
+        password,
       }),
     })
 
+    const resData = await res.json()
+
     if (res.ok) {
-      router.push('/signin')
+      router.push('/login')
+      console.log(resData)
+      console.log("Account created Successfully!!!")
     } else {
       setIsLoading(false)
+      setErrorMessage(resData.message)
     }
   }
 
@@ -162,7 +182,17 @@ const AuthProvider = ({ children }) => {
     firstname,
     lastname,
     email,
-    password
+    title,
+    accountType,
+    gender,
+    phone,
+    nationality,
+    currency,
+    idType,
+    dob,
+    passport,
+    address,
+    password,
   }) => {
     setIsLoading(true)
     setTimeout(() => {
@@ -177,7 +207,17 @@ const AuthProvider = ({ children }) => {
         firstname,
         lastname,
         email,
-        password
+        title,
+        accountType,
+        gender,
+        phone,
+        nationality,
+        currency,
+        idType,
+        dob,
+        passport,
+        address,
+        password,
       }),
     })
 
@@ -207,7 +247,7 @@ const AuthProvider = ({ children }) => {
     })
       .then((res) => {
         setUser(null)
-        router.push('/signin')
+        router.push('/login')
       })
       .catch((error) => {
         console.error('error logging out user')
@@ -219,6 +259,7 @@ const AuthProvider = ({ children }) => {
       value={{
         check,
         checkTransfer,
+        errorMessage,
         user,
         login,
         signup,
@@ -232,7 +273,7 @@ const AuthProvider = ({ children }) => {
         setShowSupportModal,
         support,
         isAlert,
-        createUser
+        createUser,
       }}
     >
       {children}

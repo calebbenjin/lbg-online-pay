@@ -25,6 +25,10 @@ body h1, h2, h3, h4, h5, h6 {
   background: #01654a;
 }
 
+.topHeader .loginIcon {
+  cursor: pointer;
+}
+
 .signout-title {
   color: #01654a;
   margin-bottom: 3rem;
@@ -70,8 +74,6 @@ body h1, h2, h3, h4, h5, h6 {
 .header {
   background: #2d8259 !important;
   padding: 1rem 0;
-  /* position: fixed;
-  left: 0; */
   width: 100%;
   z-index: 9;
 }
@@ -109,7 +111,12 @@ body h1, h2, h3, h4, h5, h6 {
   font-weight: 900;
   color: #fff;
   margin: 0;
+  margin-left: 10px;
   font-size: 1rem;
+}
+
+.logo img {
+  border-radius: 55px;
 }
 
 .Sidenav li a {
@@ -139,7 +146,7 @@ body h1, h2, h3, h4, h5, h6 {
 }
 
 .account-header {
-  background: #fff !important;
+  background: #009879 !important;
   padding: 1rem 0;
 }
 
@@ -150,7 +157,7 @@ body h1, h2, h3, h4, h5, h6 {
 }
 
 .account-header  a{
-  color: #333;
+  color: #fff !important;
   text-decoration: none;
 }
 
@@ -458,12 +465,13 @@ body h1, h2, h3, h4, h5, h6 {
 .formBody .formControl {
   margin-bottom: 2rem;
 }
+
 .formBody input {
   width: 100%;
   border: none;
   border-bottom: solid 1px #cccc;
   outline: none;
-  font-size: 2rem;
+  font-size: 1rem;
   font-weight: 300;
   color: rgb(80, 80, 80);
 }
@@ -515,6 +523,10 @@ form label {
   padding-bottom: 2rem;
 }
 
+.passport input {
+  background: #fff;
+}
+
 .formBody .trackBtn button{
   background: red;
 }
@@ -540,14 +552,80 @@ textarea {
   margin: 4rem 0;
 }
 
+
+
 .signup-container {
-  width: 50%;
+  width: 60%;
   margin: 4rem 0;
+}
+
+.errorMessage {
+  width: 100%;
+  padding: 10px;
+  background: #efd9d9;
+  text-align: center;
+  font-weight: 800;
+  color: red;
+  margin: 2rem 0;
+}
+
+.btnFlex {
+  display: flex;
+  justify-content: space-between;
+}
+
+.nextBtn {
+  background: rgba(40, 124, 79, 0.706);
+  padding: 10px 40px;
+  color: #fff;
+  font-weight: 600;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.prevBtn {
+  background: rgba(112, 126, 119, 0.706);
+  padding: 10px 40px;
+  color: #fff;
+  font-weight: 600;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.stage {
+  position: relative;
+  width: 100%;
+  margin-bottom: 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.stage .step {
+  width: 150px;
+  height: 80px;
+  background: #009879;
+  font-size: 1.5rem;
+  color: #fff;
+  font-weight: 900;
+  /* border-radius: 50%; */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.stage .line {
+  width: 90%;
+  height: 10px;
+  position: absolute;
+  top: 4rem;
+  left: 2rem;
+  background: #009879;
 }
 
 .sub_title {
   font-size: 1.5rem;
   color: #01654a;
+  margin-top: 3rem;
 }
 
 .form {
@@ -569,6 +647,10 @@ textarea {
   border-radius: 4px;
   border: solid 1px #ccc;
   color: #333;
+}
+
+.showBtn {
+  background: red;
 }
 
 .form .input-group {
@@ -1077,11 +1159,14 @@ select {
 
 .signup-container .showBtn {
   width: 30%;
-  background: none;
+  background: rgb(204, 204, 204);
   color: #333;
-  font-weight: 400;
+  font-weight: 800;
   font-size: 1rem;
-  padding: 0;
+  padding: 10px;
+  text-align: center;
+  border-radius: 10px;
+  cursor: pointer;
 }
 
 .admiheader {
@@ -1115,6 +1200,114 @@ select {
 }
 
 
+.transBtnContainer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 2rem;
+  border-top: solid 1px #333;
+}
+
+.dashBoard {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.dashBoardHeader {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.dashBoard  .currency{
+  font-size: 1.5rem;
+}
+
+.accountNumber {
+  text-transform: uppercase;
+  text-decoration: none;
+}
+
+.transBtnContainer .line {
+  border-left: solid 1px #333;
+}
+
+.transBtnContainer .transBtn {
+  width: 100%;
+  text-align: center;
+  text-decoration: none;
+  font-weight: 700;
+  padding: 30px;
+  transition: 0.5s all ease;
+}
+
+.paymentBtn {
+  background: #009879;
+  width: 100%;
+  margin: 1rem 0;
+  color: #fff;
+  padding: 15px;
+  border: none;
+  font-weight: 900;
+}
+
+.transBtnContainer .transBtn:hover {
+  color: #009879;
+  background: #00987a2e;
+}
+
+.transBtnContainer .transBtn .icon {
+  font-size: 1.4rem;
+  margin-right: 0.7rem;
+}
+
+.transactionCard {
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+  padding: 2rem;
+  border-radius: 10px;
+  background: #fff;
+  margin-top: 6rem;
+}
+
+.transactionRow {
+  border-radius: 10px;
+  width: 100%;
+  padding-top: 3rem;
+}
+.transactionRow p {
+  font-size: 0.8rem;
+}
+.transactionRow .list {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 1rem;
+  margin-bottom: 0;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+  padding: 15px;
+  border-radius: 10px;
+}
+
+.list p {
+  margin: 0;
+}
+
+.list .debit {
+  color: #e3600f;
+}
+.list .credit {
+  color: #009879;
+}
+
+.transactionRow .transTitle {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-weight: 800
+}
+
 @media only screen and (max-width: 1000px) {
   .modalbody {
     width: 80%;
@@ -1135,6 +1328,44 @@ select {
 }
 
 @media only screen and (max-width: 768px) {
+
+
+  .transactionCard {
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+    padding: 0.5rem;
+    border-radius: 10px;
+    background: #fff;
+    margin-top: 6rem;
+    width: 100%;
+  }
+
+  .transactionCard .title {
+    font-size: 1rem;
+    margin: 0;
+  }
+
+  .transactionRow .list, .mobile {
+    display: none;
+  }
+  
+  .transactionRow {
+    border-radius: 10px;
+    width: 100%;
+    padding-top: 3rem;
+  }
+  .transactionRow p {
+    font-size: 0.5rem;
+  }
+  .transactionRow .list {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 0.5rem;
+    margin-bottom: 0;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+    padding: 10px 5px;
+    border-radius: 10px;
+  }
 
   .buttonContainer {
     display: flex;
@@ -1271,10 +1502,6 @@ select {
     margin-left: 1rem;
   }
 
-  .logo {
-    /* display: block; */
-  }
-
   .menuToggle {
     display: block;
     font-size: 2.5rem;
@@ -1295,6 +1522,7 @@ select {
     padding-bottom: 0 !important;
   } */
 
+  
   
   table { 
     width: 100%; 
@@ -1409,20 +1637,26 @@ select {
   text-align: center;
 }
 
+.layoutContainer {
+  overflow-x: hidden !important;
+}
+
 .adminMain {
   display: flex;
-  padding-top: 2rem;
+  overflow-x: scroll !important; 
 }
 .adminMain article{
   width: 100%;
-  padding: 1rem;
+  padding: 3rem;
 }
 
 
 
 .sidebar {
   width: 20%;
+  height: 100vh;
   padding: 3rem 1rem;
+  background: #009879;
 }
 
 .sidebar .nav-link{
@@ -1433,7 +1667,7 @@ select {
   font-weight: 500;
   border-radius: 6px;
   transition: 0.5s all ease;
-  color: #333;
+  color: #fff;
   margin-bottom: 1rem;
 }
 
@@ -1441,11 +1675,13 @@ select {
   background: #fff;
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
   font-weight: 600;
+  color: #009879 !important;
 }
 .selected {
   background: #fff;
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
   font-weight: 600;
+  color: #009879 !important;
 }
 
 .sidebar .nav-link .icon {
@@ -1454,7 +1690,6 @@ select {
 }
 
 .sidebar .logout {
-  color: #ff5100;
   font-weight: 600;
 }
 
@@ -1462,25 +1697,33 @@ select {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 3rem;
+}
+
+.accHeader h3 span {
+  font-weight: 800;
+  text-transform: capitalize;
+}
+
+.formCard {
+  background-color: #fff;
+  border-radius: 4px;
+  padding: 4rem;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+  margin-top: 2rem;
 }
 
 .balanceCard {
   background-color: #fff;
   border-radius: 4px;
-  padding: 2rem;
+  padding: 2rem 4rem 0 4rem;
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
   margin-top: 2rem;
 }
 .balanceCard .balance{
-  margin: 1.5rem 0;
+  margin: 3rem 0;
   font-weight: 900;
+  font-size: 2rem;
   color: #009879;
-}
-
-.transBtn button{
-  width: 100%;
-  background: #009879;
 }
 
 .accountType {
@@ -1493,6 +1736,13 @@ select {
   margin-right: 1rem;
   font-size: 2rem;
   color: #009879;
+}
+
+
+
+.balanceTitle {
+  font-weight: 600;
+  font-size: 1rem;
 }
 
 .balanceCard .title {
@@ -1523,25 +1773,25 @@ select {
 
 .modalForm .formControl input {
   width: 100%;
-  padding: 5px 15px;
+  padding: 10px 15px;
   border: solid 1px #cccc;
   margin-top: 5px;
   border-radius: 4px;
-  font-size: 1.3rem;
+  font-size: 1rem;
 }
 
-.balanceCard .formControl {
+.formCard .formControl {
   width: 100%;
   margin-top: 1rem;
 }
 
-.balanceCard .formControl input {
+.formCard .formControl input {
   width: 100%;
-  padding: 5px 15px;
+  padding: 10px 15px;
   border: solid 1px #cccc;
   margin-top: 5px;
   border-radius: 4px;
-  font-size: 1.3rem;
+  /* font-size: 1.3rem; */
 }
 
 .successCard {
@@ -1557,6 +1807,60 @@ select {
   margin-bottom: 3rem;
 }
 
+@media only screen and (max-width: 1024px) {
+  .adminMain {
+    display: flex;
+    flex-direction: column;
+    padding-top: 2rem;
+  }
+  .sidebar  {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 4rem;
+    width: 100%;
+    height: auto;
+    margin: 0;
+  }
+
+  .sidebar .nav-link {
+    display: inline-flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: nowrap;
+    font-size: 0.8rem;
+    padding: 5px 10px;
+    font-weight: 600;
+    margin-right: 0.5rem;
+  }
+
+  .sidebar .nav-link .icon {
+    margin-right: 1px;
+    font-size: 1.1rem;
+  }
+
+  .formCard {
+    padding: 2rem 2rem 0 2rem;
+  }
+
+  .transBtnContainer {
+    margin-top: 1rem;
+  }
+
+  .transBtnContainer .transBtn {
+    width: 100%;
+    text-align: center;
+    text-decoration: none;
+    font-weight: 600;
+    padding: 20px;
+    transition: 0.5s all ease;
+  }
+  
+  .transBtnContainer .transBtn .icon {
+    font-size: 1rem;
+    margin-right: 0.7rem;
+  }
+}
+
 @media only screen and (max-width: 768px) {
 
   .adminMain {
@@ -1567,7 +1871,7 @@ select {
 
   .adminMain article {
     width: 100%;
-    padding: 0.5rem;
+    padding: 1rem;
   }
 
 .liveChatBtn .icon {
@@ -1592,8 +1896,10 @@ select {
   .sidebar  {
     display: flex;
     justify-content: space-between;
-    padding: 0;
+    padding: 1rem;
+    margin: 0;
     width: 100%;
+    height: auto;
   }
 
   .sidebar .nav-link {
@@ -1644,7 +1950,6 @@ select {
   .titleContainer {
     width: 90%;
   }
-  
 
   .chooseSection .section-title {
     font-size: 1.8rem;
@@ -1661,25 +1966,66 @@ select {
   }
 
   .accHeader h2 {
-    font-size: 1.2rem;
+    font-size: 1rem;
     font-weight: 800;
   }
 
   .balanceCard {
     background-color: #fff;
     border-radius: 4px;
-    padding: 2rem 1rem;
+    padding: 1rem 1rem 0 1rem;
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
     margin-bottom: 2rem;
   }
 
+  .balanceCard .balanceTitle {
+    font-size: 0.9rem;
+  }
+
+  .transBtnContainer .transBtn {
+    font-weight: 600;
+    padding: 20px 0;
+    transition: 0.5s all ease;
+    font-size: 0.6rem;
+  }
+  
+  .transBtnContainer .transBtn .icon {
+    font-size: 0.8rem;
+    margin-right: 0.2rem;
+    display: none;
+  }
+
+  .balanceCard .balance{
+    margin: 1rem 0;
+    font-weight: 900;
+    font-size: 1.2rem;
+    color: #009879;
+  }
+
+  .dashBoard  .currency{
+    font-size: 0.9rem;
+  }
+
+  .balanceIcon {
+    margin-right: 1rem;
+    font-size: 1.2rem;
+    color: #009879;
+  }
+
+  .accountNumber {
+    text-transform: uppercase;
+    text-decoration: none;
+    font-size: 0.6rem;
+    font-weight: 600;
+  }
+
+  .transBtnContainer {
+    margin-top: 1rem;
+  }
+
 }
 
-.transBtnContainer {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
+
 
 .errorBadge {
   background: #eccccc;

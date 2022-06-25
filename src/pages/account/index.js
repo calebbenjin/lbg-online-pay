@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react'
 import Layout from '../../components/AccountLayout'
 import Button from '../../components/Button'
 import Link from 'next/link'
@@ -7,64 +8,98 @@ import Image from 'next/image'
 import transImg from '../../public/transaction.png'
 import { formatToCurrency } from '../../helpers'
 import { IoWalletSharp } from 'react-icons/io5'
-// import TradingView from '../../components/TradingView'
+import { FaMoneyBillAlt } from 'react-icons/fa'
+import { MdDoubleArrow } from 'react-icons/md'
+import TradingWiget from '../../components/TradingWiget'
+import TransactionsTable from '../../components/TransactionsTable'
+// import { AdvancedChart } from 'react-tradingview-embed'
 
-const Dashboard = ({ user }) => {
+const Dashboard = ({ user, token }) => {
+  const [isTransaction, setIsTransaction] = useState(true)
   const data = user
 
-  console.log(user)
+  // useEffect(() => {
+  //   fetchTransactions()
+  // },[])
+
+  // const fetchTransactions = async () => {
+  //   const res = await fetch(`${API_URL}/users/${user?._id}/transactions`, {
+  //     method: 'GET',
+  //     headers: {
+  //       'Content-Type': 'application/json',
+  //       Authorization: `Bearer ${token}`,
+  //     },
+  //   })
+
+  //   const transactions = await res.json()
+
+  // }
+
+  console.log(data.transactions)
 
   return (
     <Layout>
+      {/* <TradingWiget /> */}
       <header className='accHeader'>
         <div className='title'>
-          {/* <h2>Home</h2> */}
-          <h5>{`Welcome, ${data?.firstname}  ${data?.lastname}`}</h5>
+          <h3>
+            Welcome <span>{`${data?.firstname}  ${data?.lastname}`}</span>
+          </h3>
         </div>
       </header>
 
       <section className='accSection'>
         <div className='row'>
-          <div className='col-lg-12'>
+          <div className='col-lg-8'>
             <div className='balanceCard'>
-              <h6>
-                <IoWalletSharp className='balanceIcon' />
-                BALANCE
-              </h6>
-              <h3 className='balance'>
-                {data?.recieveCurrency}{' '}
-                {!data?.recieveAmount
-                  ? '0.00'
-                  : formatToCurrency(data?.recieveAmount)}
-              </h3>
-              <Link href='/'>
-                <a className='accountType'>Premier savings 08776767766</a>
-              </Link>
+              <div className='dashBoardHeader'>
+                <h6 className='balanceTitle'>
+                  <IoWalletSharp className='balanceIcon' />
+                  BALANCE
+                </h6>
+                <div className='accountNumber'>
+                  {data?.accountType} - 08776767766
+                </div>
+              </div>
+              <div className='dashBoard'>
+                <div>
+                  <h3 className='balance'>
+                    <span className='currency'>{data?.currency} </span>
+                    {!data?.amount ? '0.00' : formatToCurrency(data?.amount)}
+                  </h3>
+                </div>
+              </div>
+              <div className='transBtnContainer'>
+                <Link href='/account/payment'>
+                  <a className='transBtn'>
+                    <MdDoubleArrow className='icon' />
+                    Transfer Funds
+                  </a>
+                </Link>
+                <Link href='/account/payment'>
+                  <a className='transBtn line'>
+                    <FaMoneyBillAlt className='icon' />
+                    Withdraw Funds
+                  </a>
+                </Link>
+              </div>
             </div>
-            <div className="transBtnContainer">
-              <Link href='/account/payment'>
-                <a className="transBtn">
-                  <Button>Banks Transfer</Button>
-                </a>
-              </Link>
-              <Link href='/account/payment'>
-                <a className="transBtn">
-                  <Button>Withdraw</Button>
-                </a>
-              </Link>
+            <div className='transactionCard'>
+              <h4 className='title'>Transactions</h4>
+              {isTransaction ? (
+                <TransactionsTable />
+              ) : (
+                <div className='noTransaction'>
+                  <Image src={transImg} alt='Transactions Image' />
+                  <h5>You have no transactions</h5>
+                  <p>You haven&lsquo;t make any transactions yet!</p>
+                </div>
+              )}
             </div>
           </div>
-        </div>
-
-        <div className='row'>
-          <div className='col-lg-12'>
-            <div className='balanceCard'>
-              <h4 className='title'>Transactions</h4>
-              <div className='noTransaction'>
-                <Image src={transImg} alt='Transactions Image' />
-                <h5>You have no transactions</h5>
-                <p>You haven&lsquo;t make any transactions yet!</p>
-              </div>
+          <div className='col-lg-4'>
+            <div className='charts'>
+              {/* {<AdvancedChart widgetProps={{ theme: 'light' }} /> && <AdvancedChart widgetProps={{ theme: 'light' }} /> } */}
             </div>
           </div>
         </div>
@@ -74,15 +109,15 @@ const Dashboard = ({ user }) => {
 }
 
 export async function getServerSideProps({ req }) {
-  const { token } = parseCookies(req);
+  const { token } = parseCookies(req)
 
   if (!token) {
     return {
       redirect: {
-        destination: '/signin',
+        destination: '/login',
         permanent: false,
       },
-    };
+    }
   }
 
   const resUser = await fetch(`${API_URL}/profile`, {
@@ -94,12 +129,10 @@ export async function getServerSideProps({ req }) {
 
   const user = await resUser.json()
 
-  // console.log(user)
-
   return {
     props: {
       user: user,
-      token: token
+      token: token,
     },
   }
 }

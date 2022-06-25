@@ -32,7 +32,7 @@ const Voulcher = ({ user }) => {
       setIsSuccess(true)
       setTimeout(() => {
         setIsLoding(false)
-        router.push('/account/payment/card')
+        router.push('/account')
       }, 4000)
     } else {
       setIsLoding(false)
@@ -53,7 +53,7 @@ const Voulcher = ({ user }) => {
       <section className='accSection'>
         <div className='row'>
           <div className='col-lg-6 mx-auto'>
-            <div className='balanceCard'>
+            <div className='formCard'>
               <form onSubmit={handleSubmit(onSubmit)}>
                 <h5 className='formTitle'>Enter your payment voucher</h5>
                 {isError ? <p className="errAlert">Incorrect Voucher Number!</p> : null}
@@ -71,7 +71,7 @@ const Voulcher = ({ user }) => {
                   )}
                 </div>
                 <div className='formBtn'>
-                  <Button>
+                  <button className='paymentBtn'>
                     {isLoading ? (
                       <>
                         <Spinner
@@ -84,9 +84,9 @@ const Voulcher = ({ user }) => {
                         Sending...
                       </>
                     ) : (
-                      'PROCEED'
+                      'COMPLETE TRANSACTION'
                     )}
-                  </Button>
+                  </button>
                 </div>
                 <div className='support'>
                   <SupportModal

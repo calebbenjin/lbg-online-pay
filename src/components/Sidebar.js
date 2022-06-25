@@ -13,7 +13,7 @@ const Sidebar = () => {
         <NavLink href="/account">
           <a className="nav-link">
             <RiDashboardFill className="icon" />
-            <span>Home</span>
+            <span>My Account</span>
           </a>
         </NavLink>
         <NavLink href="/account/transactions">

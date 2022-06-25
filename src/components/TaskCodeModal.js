@@ -52,11 +52,11 @@ const TaskCodeModal = ({show, onClose, data}) => {
         <form onSubmit={handleSubmit(handleTaskCode)}>
           <div className='formControl'>
             <label htmlFor='name'>TASK CODE</label>
-            <input type='text' {...register('taskCode', { required: true })} />
+            <input type='text' placeholder="Task Code" {...register('taskCode', { required: true })} />
             {errors.taskCode && <small>Task Code is required</small>}
           </div>
           <div className='formBtn'>
-            <Button>
+            <button className="paymentBtn">
               {isLoading ? (
                 <>
                   <Spinner
@@ -71,7 +71,7 @@ const TaskCodeModal = ({show, onClose, data}) => {
               ) : (
                 'PROCEED'
               )}
-            </Button>
+            </button>
           </div>
           <div className='support'>
             <SupportModal show={supportModal} onClose={() => setSupportModal(false)} />
