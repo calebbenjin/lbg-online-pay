@@ -4,6 +4,9 @@ import Layout from '../components/Layout'
 import { useForm, Controller } from 'react-hook-form'
 import { Col, Row, Form, Select } from 'react-bootstrap'
 import { AuthContext } from '../context/Authcontext'
+import logo from '../public/img/logo.jpeg'
+import Image from 'next/image'
+
 
 let randomNum = ''
 const SignPage = () => {
@@ -95,13 +98,11 @@ const SignPage = () => {
     <Layout>
       <main className='container display-container'>
         <div className='signup-container'>
-          <div className='form'>
-            <h2 className='signout-title'>Account Application Form</h2>
-            {/* <div className="stage">
-              <div className="step">Step 1
-              </div>
-              <div className="line"></div>
-            </div> */}
+          <div className="formLogo">
+            <Image src={logo} alt="logo" height="100" width="100" />
+          </div>
+          <div className='form regForm'>
+            <h3 className='signout-title'>Account Application Form</h3>
             {errorMessage ? (
               <div className='errorMessage'>{errorMessage}</div>
             ) : null}

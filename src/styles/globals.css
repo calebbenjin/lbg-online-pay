@@ -31,7 +31,9 @@ body h1, h2, h3, h4, h5, h6 {
 
 .signout-title {
   color: #01654a;
-  margin-bottom: 3rem;
+  padding-bottom: 4rem;
+  font-weight: 800;
+  text-align: center;
 }
 
 .input-group select {
@@ -559,6 +561,22 @@ textarea {
   margin: 4rem 0;
 }
 
+.regForm {
+  background: #fff;
+  box-shadow: 0 0 20px 0px rgba(0, 0, 0, 0.2);
+  border-radius: 10px;
+}
+
+.formLogo {
+  width: 80%;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.formLogo img {
+  border-radius: 50%;
+}
+
 .errorMessage {
   width: 100%;
   padding: 10px;
@@ -702,8 +720,8 @@ textarea {
 
 .btn-signup {
   padding: 10px;
-  border: solid 1px #813fd6;
-  color: #813fd6;
+  border: solid 1px #009879;
+  color: #009879;
   border-radius: 4px;
   text-decoration: none;
   font-weight: 600;

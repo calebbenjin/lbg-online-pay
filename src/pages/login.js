@@ -3,6 +3,8 @@ import Layout from '../components/Layout'
 import Link from 'next/link'
 import { AuthContext } from '../context/Authcontext'
 import { useForm } from 'react-hook-form'
+import logo from '../public/img/logo.jpeg'
+import Image from 'next/image'
 
 const LoginPage = () => {
   const {login, isLoading, isError} = useContext(AuthContext)
@@ -26,8 +28,11 @@ const LoginPage = () => {
     <Layout>
       <main className='display-container'>
         <div className='form-container'>
-          <div className='form'>
-            <h3>Welcome to Internet Banking</h3>
+          <div className="formLogo">
+            <Image src={logo} alt="logo" height="100" width="100" />
+          </div>
+          <div className='form regForm'>
+            <h3 className='signout-title'>Login</h3>
             {isError ? <div className="errorBadge">Incorrect User ID: or password</div> : null}
             <form onSubmit={handleSubmit(onSubmit)}>
               <div className='input-group'>
