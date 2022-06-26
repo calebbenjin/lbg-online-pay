@@ -5,6 +5,7 @@ import { AuthContext } from '../context/Authcontext'
 import { useForm } from 'react-hook-form'
 import logo from '../public/img/logo.jpeg'
 import Image from 'next/image'
+import Loader from '../components/Loader'
 
 const LoginPage = () => {
   const {login, isLoading, isError} = useContext(AuthContext)
@@ -22,6 +23,10 @@ const LoginPage = () => {
 
   const onSubmit = async (data) => {
     login(data)
+  }
+
+  if(isLoading) {
+    return <Loader />
   }
 
   return (

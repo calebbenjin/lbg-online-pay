@@ -21,6 +21,57 @@ body h1, h2, h3, h4, h5, h6 {
 }
 
 
+.containerLoader img {
+  border-radius: 50%;
+}
+.containerLoader .imgContainer {
+  margin-bottom: 10rem;
+}
+
+.loaderContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  background: #009879;
+}
+
+.loader {
+  border: 10px solid #a1eadc; /* Light grey */
+  border-top: 10px solid #ffff; /* Blue */
+  border-radius: 50%;
+  width: 100px;
+  height: 100px;
+  margin: 0 auto;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+@media only screen and (max-width: 768px) {
+  .containerLoader img {
+    border-radius: 50%;
+    width: 100px !important;
+    height: 100px !important;
+  }
+  .containerLoader .imgContainer {
+    margin-bottom: 10rem;
+  }
+
+  .loader {
+    border: 7px solid #a1eadc; /* Light grey */
+    border-top: 7px solid #ffff; /* Blue */
+    border-radius: 50%;
+    width: 80px;
+    height: 80px;
+    margin: 0 auto;
+    animation: spin 1s linear infinite;
+  }
+}
+
 .topHeader {
   background: #01654a;
 }
@@ -736,6 +787,10 @@ textarea {
   margin: 2rem 0;
 }
 
+.formControl span, .input-group span {
+  color: red;
+}
+
 .signup {
   display: flex;
   align-items: center;
@@ -1167,12 +1222,9 @@ select {
   display: none;
 }
 
-.signup-container span {
-  color: red;
-}
-
 .input-group .password span {
   color: #333;
+  font-weight: 700;
 }
 
 .signup-container .showBtn {

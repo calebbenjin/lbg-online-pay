@@ -6,14 +6,15 @@ import { Col, Row, Form, Select } from 'react-bootstrap'
 import { AuthContext } from '../context/Authcontext'
 import logo from '../public/img/logo.jpeg'
 import Image from 'next/image'
-
+import Loader from '../components/Loader'
 
 let randomNum = ''
 const SignPage = () => {
   const { signup, isLoading, errorMessage } = useContext(AuthContext)
+  const [loading, setLoading] = useState(false)
   const [stepOne, setStepOne] = useState(true)
-  const [stepTwo, setStepTwo] = useState(false)
-  const [stepThree, setStepThree] = useState(false)
+  const [stepTwo, setStepTwo] = useState(true)
+  const [stepThree, setStepThree] = useState(true)
   const [accountNumber, setAccountNumber] = useState(
     (randomNum += Math.round(Math.random() * 9) + 2779864789)
   )
@@ -29,6 +30,7 @@ const SignPage = () => {
   }
 
   const onSubmit = async (data) => {
+    setLoading(true)
     const {
       firstname,
       lastname,
@@ -46,24 +48,22 @@ const SignPage = () => {
     } = data
     const passport = data.passportImg[0]?.name
 
-    console.log(data)
-
-    // signup({
-    //   firstname,
-    //   lastname,
-    //   email,
-    //   title,
-    //   accountType,
-    //   gender,
-    //   phone,
-    //   nationality,
-    //   currency,
-    //   idType,
-    //   dob,
-    //   passport,
-    //   address,
-    //   password,
-    // })
+    signup({
+      firstname,
+      lastname,
+      email,
+      title,
+      accountType,
+      gender,
+      phone,
+      nationality,
+      currency,
+      idType,
+      dob,
+      passport,
+      address,
+      password,
+    })
   }
 
   const handleShowStepOne = () => {
@@ -81,7 +81,6 @@ const SignPage = () => {
     setStepThree(false)
   }
 
-
   const handleShowStepTwo = () => {
     setStepOne(false)
     setStepTwo(false)
@@ -94,84 +93,90 @@ const SignPage = () => {
     setStepThree(!stepThree)
   }
 
+  if (isLoading) {
+    return <Loader />
+  }
+
   return (
     <Layout>
+      {loading ? <Loader /> : null }
       <main className='container display-container'>
         <div className='signup-container'>
-          <div className="formLogo">
-            <Image src={logo} alt="logo" height="100" width="100" />
+          <div className='formLogo'>
+            <Image src={logo} alt='logo' height='100' width='100' />
           </div>
           <div className='form regForm'>
-            <h3 className='signout-title'>Account Application Form</h3>
+            <h3 className='signout-title'>Account Opening Form</h3>
             {errorMessage ? (
               <div className='errorMessage'>{errorMessage}</div>
             ) : null}
 
             <form onSubmit={handleSubmit(onSubmit)}>
-                {stepOne ?
-                  <div>
-                    <Row>
-                      <Col lg={6}>
-                        <div className='input-group'>
-                          <label htmlFor='lastname'>Title</label>
-                          <select {...register('title')}>
-                            <option>Select Your Title</option>
-                            <option value='Mr'>Mr</option>
-                            <option value='Mrs'>Mrs</option>
-                            <option value='Ms'>Ms</option>
-                            <option value='Miss'>Miss</option>
-                            <option value='Dr'>Dr</option>
-                          </select>
-                          {errors.title && <span>This field is required</span>}
-                        </div>
-                      </Col>
-                      <Col lg='6'>
-                        <div className='input-group'>
-                          <label htmlFor='text'>First name</label>
+              {stepOne ? (
+                <div>
+                  <Row>
+                    <Col lg={6}>
+                      <div className='input-group'>
+                        <label htmlFor='lastname'>Title</label>
+                        <select {...register('title')}>
+                          <option>Select Your Title</option>
+                          <option value='Mr'>Mr</option>
+                          <option value='Mrs'>Mrs</option>
+                          <option value='Ms'>Ms</option>
+                          <option value='Miss'>Miss</option>
+                          <option value='Dr'>Dr</option>
+                        </select>
+                        {errors.title && <span>This field is required</span>}
+                      </div>
+                    </Col>
+                    <Col lg='6'>
+                      <div className='input-group'>
+                        <label htmlFor='text'>First name</label>
+                        <input
+                          type='text'
+                          {...register('firstname', { required: true })}
+                          placeholder='Your firstname'
+                        />
+                        {errors.firstname && (
+                          <span>This field is required</span>
+                        )}
+                      </div>
+                    </Col>
+                    <Col lg='6'>
+                      <div className='input-group'>
+                        <label htmlFor='lastname'>Last name</label>
+                        <input
+                          type='text'
+                          {...register('lastname', { required: true })}
+                          placeholder='Your Last name'
+                        />
+                        {errors.lastname && <span>This field is required</span>}
+                      </div>
+                    </Col>
+                    <Col lg='6'>
+                      <div className='input-group'>
+                        <label htmlFor='password'>Create Password</label>
+                        <div className='password'>
                           <input
-                            type='text'
-                            {...register('firstname', { required: true })}
-                            placeholder='Your firstname'
+                            type={showPassword ? 'text' : 'password'}
+                            {...register('password', { required: true })}
+                            placeholder='Your password'
                           />
-                          {errors.firstname && <span>This field is required</span>}
+                          <span onClick={handleShowPassword}>show</span>
                         </div>
-                      </Col>
-                      <Col lg='6'>
-                        <div className='input-group'>
-                          <label htmlFor='lastname'>Last name</label>
-                          <input
-                            type='text'
-                            {...register('lastname', { required: true })}
-                            placeholder='Your Last name'
-                          />
-                          {errors.lastname && <span>This field is required</span>}
-                        </div>
-                      </Col>
-                      <Col lg='6'>
-                        <div className='input-group'>
-                          <label htmlFor='password'>Create Password</label>
-                          <div className='password'>
-                            <input
-                              type={showPassword ? 'text' : 'password'}
-                              {...register('password', { required: true })}
-                              placeholder='Your password'
-                            />
-                            <span onClick={handleShowPassword}>show</span>
-                          </div>
-                          {errors.password && <span>This field is required</span>}
-                        </div>
-                      </Col>
-                    </Row>
-                    <div className="btnFlex">
+                        {errors.password && <span>This field is required</span>}
+                      </div>
+                    </Col>
+                  </Row>
+                  {/* <div className="btnFlex">
                       <p className='nextBtn' onClick={handleShowStepOne}>
                         Next
                       </p>
-                    </div>
-                  </div>
-                : null}
+                    </div> */}
+                </div>
+              ) : null}
 
-          
-                {stepTwo ? 
+              {stepTwo ? (
                 <div>
                   <p className='sub_title'>Contact details</p>
                   <Row>
@@ -304,7 +309,9 @@ const SignPage = () => {
                           <option value='Congo'>Congo</option>
                           <option value='Cook Islands'>Cook Islands</option>
                           <option value='Costa Rica'>Costa Rica</option>
-                          <option value="Cote D'Ivoire">Cote D&#39;Ivoire</option>
+                          <option value="Cote D'Ivoire">
+                            Cote D&#39;Ivoire
+                          </option>
                           <option value='Croatia'>Croatia</option>
                           <option value='Cuba'>Cuba</option>
                           <option value='Cyprus'>Cyprus</option>
@@ -572,91 +579,104 @@ const SignPage = () => {
                           <option value='Zambia'>Zambia</option>
                           <option value='Zimbabwe'>Zimbabwe</option>
                         </select>
+                        {errors.nationality && (
+                          <span>This field is required</span>
+                        )}
                       </div>
                     </Col>
                   </Row>
-                  <div className="btnFlex">
+                  {/* <div className="btnFlex">
                     <p className='prevBtn' onClick={handlePreviousOne}>
                       Previous
                     </p>
                     <p className='nextBtn' onClick={handleShowStepTwo}>
                       Next
                     </p>
-                  </div>
+                  </div> */}
                 </div>
-                : null}
+              ) : null}
 
-                {stepThree ? 
-                  <>
-                    <p className='sub_title'>Identification</p>
-                    <Row>
-                      <Col xl='6'>
-                        <div className='formControl'>
-                          <label htmlFor='accountType'>Account Type</label>
-                          <select {...register('accountType')}>
-                            <option>Choose Account Type</option>
-                            <option value='Current'>Current account</option>
-                            <option value='Current'>Current account</option>
-                            <option value='Savings'>Savings account</option>
-                            <option value='Salary'>Salary account</option>
-                          </select>
-                        </div>
-                      </Col>
-                      <Col xl='6'>
-                        <div className='formControl'>
-                          <label htmlFor='currency'>Currency</label>
-                          <select {...register('currency')}>
-                            <option>Choose Currency</option>
-                            <option value='USD'>USD</option>
-                            <option value='EURO'>EURO</option>
-                            <option value='POUNDS'>POUNDS</option>
-                            <option value='ZAR'>ZAR</option>
-                            <option value='NGN'>NGN</option>
-                            <option value='PULA'>Pula</option>
-                            <option value='NAD'>NAD</option>
-                            <option value='ZMW'>ZMW</option>
-                            <option value='SZL'>SZL</option>
-                            <option value='LSL'>LSL</option>
-                          </select>
-                        </div>
-                      </Col>
-                      <Col xl='6'>
-                        <div className='formControl'>
-                          <label htmlFor='email'>Identity Type</label>
-                          <select {...register('idType')}>
-                            <option value='passport'>Passport</option>
-                            <option value='id'>ID</option>
-                            <option value='Drivers licence'>
-                              Drivers licence
-                            </option>
-                          </select>
-                        </div>
-                      </Col>
-                      <Col lg='12'>
-                        <div className='input-group passport'>
-                          <label htmlFor='passport'>
-                            Upload a valid Government issued Identification:
-                          </label>
-                          <input
-                            type='file'
-                            {...register('passportImg', { required: true })}
-                            name='passportImg'
-                          />
-                          {errors.passport && <span>This field is required</span>}
-                        </div>
-                      </Col>
-                    </Row> 
-                    <div className="btnFlex">
+              {stepThree ? (
+                <>
+                  <p className='sub_title'>Identification</p>
+                  <Row>
+                    <Col xl='6'>
+                      <div className='formControl'>
+                        <label htmlFor='accountType'>Account Type</label>
+                        <select
+                          {...register('accountType', { required: true })}
+                        >
+                          <option>Choose Account Type</option>
+                          <option value='Current'>Current Account</option>
+                          <option value='Savings'>Savings Account</option>
+                          <option value='Salary'>Salary Account</option>
+                          <option value='Salary'>Mortgage Account</option>
+                          <option value='Salary'>Loan Account</option>
+                          <option value='Salary'>Offshore Account</option>
+                        </select>
+                        {errors.accountType && (
+                          <span>This field is required</span>
+                        )}
+                      </div>
+                    </Col>
+                    <Col xl='6'>
+                      <div className='formControl'>
+                        <label htmlFor='currency'>Currency</label>
+                        <select {...register('currency', { required: true })}>
+                          <option>Choose Currency</option>
+                          <option value='USD'>USD</option>
+                          <option value='EURO'>EURO</option>
+                          <option value='POUNDS'>POUNDS</option>
+                          <option value='ZAR'>ZAR</option>
+                          <option value='NGN'>NGN</option>
+                          <option value='PULA'>Pula</option>
+                          <option value='NAD'>NAD</option>
+                          <option value='ZMW'>ZMW</option>
+                          <option value='SZL'>SZL</option>
+                          <option value='LSL'>LSL</option>
+                        </select>
+                        {errors.currency && <span>This field is required</span>}
+                      </div>
+                    </Col>
+                    <Col xl='6'>
+                      <div className='formControl'>
+                        <label htmlFor='email'>Identity Type</label>
+                        <select {...register('idType', { required: true })}>
+                          <option value='passport'>Passport</option>
+                          <option value='id'>ID</option>
+                          <option value='Drivers licence'>
+                            Drivers licence
+                          </option>
+                        </select>
+                        {errors.idType && <span>This field is required</span>}
+                      </div>
+                    </Col>
+                    <Col lg='12'>
+                      <div className='input-group passport'>
+                        <label htmlFor='passport'>
+                          Upload a valid Government issued Identification:
+                        </label>
+                        <input
+                          type='file'
+                          {...register('passportImg', { required: true })}
+                          name='passportImg'
+                        />
+                        {errors.passportImg && (
+                          <span>This field is required</span>
+                        )}
+                      </div>
+                    </Col>
+                  </Row>
+                  {/* <div className="btnFlex">
                       <p className='prevBtn' onClick={handlePreviousTwo}>
                         Previous
                       </p>
-                    </div>
-
-                    <button className='login-btn'>
-                      {isLoading ? 'Creating Account...' : 'Create Account'}
-                    </button>
-                  </>
-                  : null}
+                    </div> */}
+                </>
+              ) : null}
+              <button className='login-btn'>
+                {isLoading ? 'Creating Account...' : 'Create Account'}
+              </button>
             </form>
           </div>
         </div>
