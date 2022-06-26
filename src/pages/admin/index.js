@@ -30,9 +30,9 @@ const AdminPage = ({ token }) => {
     <Layout>
       <div className='admiheader'>
         <h3>All Users</h3>
-        <Link href='/admin/createuser'>
+        {/* <Link href='/admin/createuser'>
           <a className='createBtn'>Create user</a>
-        </Link>
+        </Link> */}
       </div>
       <hr />
       <div className='tableCard'>

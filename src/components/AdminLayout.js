@@ -20,11 +20,8 @@ const Layout = ({ children }) => {
             <Navbar.Collapse id='responsive-navbar-nav'>
               <Nav className='me-auto'></Nav>
               <Nav>
-              <Link href='/admin/'>
+                <Link href='/admin/'>
                   <a>Home</a>
-                </Link>
-                <Link href='/admin/message'>
-                  <a>Messages</a>
                 </Link>
                 <Link href="#">
                   <a onClick={() => logout()}>Logout</a>
