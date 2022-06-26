@@ -20,7 +20,7 @@ const Footer = () => {
           <Col lg={4}>
             <h5>About us</h5>
             <div>
-              <li>About LLG Bank</li>
+              <li>About LBG Bank</li>
               <li>Communities</li>
               <li>Lloyds Banking Group</li>
               <li>Careers</li>
