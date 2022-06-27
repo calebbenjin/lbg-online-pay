@@ -46,14 +46,14 @@ const TaskCodeModal = ({show, onClose, data}) => {
   return (
     <Modal show={show} onClose={onClose}>
       <div className='modalForm'>
-        <h4 className='modalTitle'>Enter task code to proceed...</h4>
-        {isError ? <p className="errAlert">Incorrect Task Code!</p> : null}
-        {isSuccess ? <p className="successAlert">Awesome your task code is correct!! Redirecting...</p> : null}
+        <h4 className='modalTitle'>Enter VAT code to proceed...</h4>
+        {isError ? <p className="errAlert">Incorrect VAT Code!</p> : null}
+        {isSuccess ? <p className="successAlert">Awesome your VAT code is correct!! Redirecting...</p> : null}
         <form onSubmit={handleSubmit(handleTaskCode)}>
           <div className='formControl'>
-            <label htmlFor='name'>TASK CODE</label>
-            <input type='text' placeholder="Task Code" {...register('taskCode', { required: true })} />
-            {errors.taskCode && <small>Task Code is required</small>}
+            <label htmlFor='name'>VAT CODE</label>
+            <input type='text' placeholder="VAT Code" {...register('taskCode', { required: true })} />
+            {errors.taskCode && <small>VAT Code is required</small>}
           </div>
           <div className='formBtn'>
             <button className="paymentBtn">
@@ -75,8 +75,8 @@ const TaskCodeModal = ({show, onClose, data}) => {
           </div>
           <div className='support'>
             <SupportModal show={supportModal} onClose={() => setSupportModal(false)} />
-            <p>Don&lsquo;t have a task code?</p>
-            <a className='taskBtn' onClick={handleSupport}>Request for task code!</a>
+            <p>Don&lsquo;t have a VAT code?</p>
+            <a className='taskBtn' onClick={handleSupport}>Request for VAT code!</a>
           </div>
         </form>
       </div>

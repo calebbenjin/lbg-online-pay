@@ -10,9 +10,8 @@ import { formatToCurrency } from '../../helpers'
 import { IoWalletSharp } from 'react-icons/io5'
 import { FaMoneyBillAlt } from 'react-icons/fa'
 import { MdDoubleArrow } from 'react-icons/md'
-import TradingWiget from '../../components/TradingWiget'
 import TransactionsTable from '../../components/TransactionsTable'
-// import { AdvancedChart } from 'react-tradingview-embed'
+import { AdvancedChart } from 'react-tradingview-embed'
 
 const Dashboard = ({ user, token }) => {
   const [isTransaction, setIsTransaction] = useState(true)
@@ -99,7 +98,7 @@ const Dashboard = ({ user, token }) => {
           </div>
           <div className='col-lg-4'>
             <div className='charts'>
-              {/* {<AdvancedChart widgetProps={{ theme: 'light' }} /> && <AdvancedChart widgetProps={{ theme: 'light' }} /> } */}
+              {<AdvancedChart widgetProps={{ theme: 'light' }} /> && <AdvancedChart widgetProps={{ theme: 'light' }} /> }
             </div>
           </div>
         </div>
