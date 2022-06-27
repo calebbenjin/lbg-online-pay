@@ -1313,6 +1313,7 @@ select {
   padding: 30px;
   transition: 0.5s all ease;
   white-space: nowrap;
+  cursor: pointer;
 }
 
 .paymentBtn {
