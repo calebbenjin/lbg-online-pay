@@ -17,35 +17,39 @@ const SupportPage = ({ user, token }) => {
     formState: { errors },
   } = useForm()
   const [isLoading, setIsLoding] = useState(false)
-  // const [isAlert, setIsAlert] = useState(false)
+  const [isAlert, setIsAlert] = useState(false)
   const [showModal, setShowModal] = useState(false)
 
   // console.log(user)
 
   const onSubmit = async (data) => {
     setIsLoding(true)
-    console.log(data)
-    const res = await fetch(`${API_URL}/users/${user?._id}/transactions`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${token}`,
-      },
-      body: JSON.stringify(data),
-    })
-
-    const resData = await res.json()
-
-
-    if (res.ok) {
-      setShowModal(false)
-      setTimeout(() => {
-        setShowModal(true)
-        setIsLoding(false)
-      }, 3000)
-    } else {
-      console.log("error")
+    if (user.amount < data.amount || user.amount === undefined) {
       setIsLoding(false)
+      setIsAlert(true)
+      console.log('Insuficent Balance!!!')
+    } else {
+      const res = await fetch(`${API_URL}/users/${user?._id}/transactions`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(data),
+      })
+
+      const resData = await res.json()
+
+      if (res.ok) {
+        setShowModal(false)
+        setTimeout(() => {
+          setShowModal(true)
+          setIsLoding(false)
+        }, 3000)
+      } else {
+        console.log('error')
+        setIsLoding(false)
+      }
     }
   }
 
@@ -56,11 +60,6 @@ const SupportPage = ({ user, token }) => {
         onClose={() => setShowModal(false)}
         data={user}
       />
-      {/* <header className='accHeader'>
-        <div className='title'>
-          <h2>Proceed to payment</h2>
-        </div>
-      </header> */}
 
       <section className='accSection'>
         <div className='row'>
@@ -68,6 +67,7 @@ const SupportPage = ({ user, token }) => {
             <div className='formCard'>
               <form onSubmit={handleSubmit(onSubmit)}>
                 <h4 className='formTitle'> Enter Account Details</h4>
+                {isAlert ? <p className='errAlert'>Insuficent Fund</p> : null}
                 <div className='formControl'>
                   <label htmlFor='name'>ACCOUNT NAME</label>
                   <input

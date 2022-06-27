@@ -1267,6 +1267,7 @@ select {
   color: red;
   font-weight: 700;
   border-radius: 6px;
+  text-align: center;
 }
 
 
@@ -1311,6 +1312,7 @@ select {
   font-weight: 700;
   padding: 30px;
   transition: 0.5s all ease;
+  white-space: nowrap;
 }
 
 .paymentBtn {
@@ -1795,6 +1797,12 @@ select {
   font-size: 2rem;
   color: #009879;
 }
+
+.balance small {
+    color: red !important;
+    font-size: 0.9rem !important;
+    font-weight: 600;
+  }
 
 .accountType {
   font-weight: 600;

@@ -12,10 +12,15 @@ import { FaMoneyBillAlt } from 'react-icons/fa'
 import { MdDoubleArrow } from 'react-icons/md'
 import TransactionsTable from '../../components/TransactionsTable'
 import AdvancedChart from '../../components/AdvancedChart'
+import { useRouter } from 'next/router'
 
 const Dashboard = ({ user, token }) => {
   const [isTransaction, setIsTransaction] = useState(true)
+  const [isFund, setIsFund] = useState(false)
   const data = user
+
+  const router = useRouter()
+
 
   // useEffect(() => {
   //   fetchTransactions()
@@ -33,6 +38,15 @@ const Dashboard = ({ user, token }) => {
   //   const transactions = await res.json()
 
   // }
+
+  const handleTransfer = () => {
+    // console.log(data)
+    if(data?.amount < 0 || data?.amount == undefined) {
+      setIsFund(true)
+    } else {
+      router.push('/account/payment')
+    }
+  }
 
   console.log(data.transactions)
 
@@ -62,19 +76,21 @@ const Dashboard = ({ user, token }) => {
               </div>
               <div className='dashBoard'>
                 <div>
+                  
                   <h3 className='balance'>
                     <span className='currency'>{data?.currency} </span>
                     {!data?.amount ? '0.00' : formatToCurrency(data?.amount)}
+                    {isFund ? <small className="alert">Insuficent Balance!!</small> : null}
                   </h3>
                 </div>
               </div>
-              <div className='transBtnContainer'>
-                <Link href='/account/payment'>
+              <div className='transBtnContainer' onClick={handleTransfer}>
+                <div>
                   <a className='transBtn'>
                     <MdDoubleArrow className='icon' />
                     Transfer Funds
                   </a>
-                </Link>
+                </div>
                 <Link href='/account/payment'>
                   <a className='transBtn line'>
                     <FaMoneyBillAlt className='icon' />
