@@ -11,7 +11,7 @@ import { IoWalletSharp } from 'react-icons/io5'
 import { FaMoneyBillAlt } from 'react-icons/fa'
 import { MdDoubleArrow } from 'react-icons/md'
 import TransactionsTable from '../../components/TransactionsTable'
-import { AdvancedChart } from 'react-tradingview-embed'
+import AdvancedChart from '../../components/AdvancedChart'
 
 const Dashboard = ({ user, token }) => {
   const [isTransaction, setIsTransaction] = useState(true)
