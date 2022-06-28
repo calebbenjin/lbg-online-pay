@@ -132,7 +132,7 @@ const UserDetails = ({ userId, user, token }) => {
                   </Col>
                   <Col xl='6'>
                     <div className='formControl'>
-                      <label htmlFor='taskCode'>Tax Code</label>
+                      <label htmlFor='taskCode'>VAT Code</label>
                       <Controller
                         name='taskCode'
                         control={control}
