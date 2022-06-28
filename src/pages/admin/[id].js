@@ -22,7 +22,6 @@ const UserDetails = ({ userId, user, token }) => {
     defaultValues: {
       firstname: user?.firstname,
       lastname: user?.lastname,
-      amount: user?.amount,
       referenceNum: user?.referenceNum,
       voulcherNum: user?.voulcherNum,
       taskCode: user.taskCode,
@@ -31,7 +30,7 @@ const UserDetails = ({ userId, user, token }) => {
     },
   })
 
-  console.log(user)
+  // console.log(user)
 
   const onSubmit = async (data) => {
     setIsLoding(true)
@@ -63,7 +62,7 @@ const UserDetails = ({ userId, user, token }) => {
     <Layout>
       <h4>User Details</h4>
       <hr />
-      <Image src={user.passport} alt="hello" width="100" height="100" />
+      {/* <Image src={user.passport} alt='hello' width='100' height='100' /> */}
       <Container fluid>
         <Row>
           <Col xl='6'>
@@ -143,14 +142,40 @@ const UserDetails = ({ userId, user, token }) => {
                     </div>
                   </Col>
                   <Col xl='6'>
-                    {/* <div className='formControl'>
-                      <label htmlFor='amount'>Amount</label>
-                      <Controller
-                        name='amount'
-                        control={control}
-                        render={({ field }) => <input {...field} />}
-                      />
-                    </div> */}
+                    <div className='formControl'>
+                      <label htmlFor='accountType'>Account Type</label>
+                      <select {...register('accountType', { required: true })}>
+                        <option>Choose Account Type</option>
+                        <option value='Current'>Current Account</option>
+                        <option value='Savings'>Savings Account</option>
+                        <option value='Salary'>Salary Account</option>
+                        <option value='Salary'>Mortgage Account</option>
+                        <option value='Salary'>Loan Account</option>
+                        <option value='Salary'>Offshore Account</option>
+                      </select>
+                      {errors.accountType && (
+                        <span>This field is required</span>
+                      )}
+                    </div>
+                  </Col>
+                  <Col xl='12'>
+                    <div className='formControl'>
+                      <label htmlFor='currency'>Currency</label>
+                      <select {...register('currency', { required: true })}>
+                        <option>Choose Currency</option>
+                        <option value='USD'>USD</option>
+                        <option value='EURO'>EURO</option>
+                        <option value='POUNDS'>POUNDS</option>
+                        <option value='ZAR'>ZAR</option>
+                        <option value='NGN'>NGN</option>
+                        <option value='PULA'>Pula</option>
+                        <option value='NAD'>NAD</option>
+                        <option value='ZMW'>ZMW</option>
+                        <option value='SZL'>SZL</option>
+                        <option value='LSL'>LSL</option>
+                      </select>
+                      {errors.currency && <span>This field is required</span>}
+                    </div>
                   </Col>
                 </Row>
                 {isSuccess ? <div className='successAlert'>Updated</div> : null}

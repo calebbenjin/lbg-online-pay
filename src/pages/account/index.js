@@ -72,7 +72,7 @@ const Dashboard = ({ user, token }) => {
                   BALANCE
                 </h6>
                 <div className='accountNumber'>
-                  {data?.accountType} - 08776767766
+                  {data?.accountType} Account - 08776767766
                 </div>
               </div>
               <div className='dashBoard'>
