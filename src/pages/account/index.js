@@ -14,6 +14,7 @@ import TransactionsTable from '../../components/TransactionsTable'
 import AdvancedChart from '../../components/AdvancedChart'
 import { useRouter } from 'next/router'
 import { FaWhatsappSquare } from 'react-icons/fa'
+import TradingWiget from '../../components/TradingWiget'
 
 const Dashboard = ({ user, token }) => {
   const [isTransaction, setIsTransaction] = useState(false)
@@ -63,7 +64,7 @@ const Dashboard = ({ user, token }) => {
 
       <section className='accSection'>
         <div className='row'>
-          <div className='col-lg-8'>
+          <div className='col-lg-8 mx-auto'>
             <div className='balanceCard'>
               <div className='dashBoardHeader'>
                 <h6 className='balanceTitle'>
@@ -117,9 +118,12 @@ const Dashboard = ({ user, token }) => {
           </div>
           <div className='col-lg-4'>
             <div className='charts'>
-              {<AdvancedChart widgetProps={{ theme: 'light' }} /> && (
+                <TradingWiget />
+                <TradingWiget />
+                <TradingWiget />
+              {/* {<AdvancedChart widgetProps={{ theme: 'light' }} /> && (
                 <AdvancedChart widgetProps={{ theme: 'light' }} />
-              )}
+              )} */}
             </div>
           </div>
         </div>

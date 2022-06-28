@@ -20,6 +20,10 @@ body h1, h2, h3, h4, h5, h6 {
   text-transform: inherit !important;
 }
 
+.charts {
+  margin-top: 3rem;
+}
+
 
 .containerLoader img {
   border-radius: 50%;
@@ -1339,6 +1343,10 @@ select {
   background: #00987a2e;
 }
 
+.transBtn:active {
+  background:rgb(40, 183, 114);
+}
+
 .transBtnContainer .transBtn .icon {
   font-size: 1.4rem;
   margin-right: 0.7rem;
@@ -1943,6 +1951,10 @@ select {
     border: none;
     background: none;
   }
+
+  .transBtnContainer .transBtn:active {
+    background:rgb(40, 183, 114);
+  }
   
   .transBtnContainer .transBtn .icon {
     font-size: 1rem;
@@ -1951,6 +1963,20 @@ select {
 }
 
 @media only screen and (max-width: 768px) {
+  
+  .accHeader h3 span {
+    font-weight: 800;
+    text-transform: capitalize;
+  }
+  .accHeader h3  {
+    font-size: 1rem;
+  }
+
+  .balance small {
+    color: red !important;
+    font-size: 0.6rem !important;
+    font-weight: 700;
+  }
 
   .adminMain {
     display: flex;
@@ -2075,13 +2101,13 @@ select {
     font-weight: 600;
     padding: 20px 0;
     transition: 0.5s all ease;
-    font-size: 0.6rem;
+    font-size: 0.8rem;
   }
   
   .transBtnContainer .transBtn .icon {
     font-size: 0.8rem;
     margin-right: 0.2rem;
-    display: none;
+    /* display: none; */
   }
 
   .balanceCard .balance{
