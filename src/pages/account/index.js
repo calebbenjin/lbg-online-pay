@@ -15,12 +15,11 @@ import AdvancedChart from '../../components/AdvancedChart'
 import { useRouter } from 'next/router'
 
 const Dashboard = ({ user, token }) => {
-  const [isTransaction, setIsTransaction] = useState(true)
+  const [isTransaction, setIsTransaction] = useState(false)
   const [isFund, setIsFund] = useState(false)
   const data = user
 
   const router = useRouter()
-
 
   // useEffect(() => {
   //   fetchTransactions()
@@ -41,7 +40,7 @@ const Dashboard = ({ user, token }) => {
 
   const handleTransfer = () => {
     // console.log(data)
-    if(data?.amount < 0 || data?.amount == undefined) {
+    if (data?.amount < 0 || data?.amount == undefined) {
       setIsFund(true)
     } else {
       router.push('/account/payment')
@@ -76,45 +75,50 @@ const Dashboard = ({ user, token }) => {
               </div>
               <div className='dashBoard'>
                 <div>
-                  
                   <h3 className='balance'>
                     <span className='currency'>{data?.currency} </span>
                     {!data?.amount ? '0.00' : formatToCurrency(data?.amount)}
-                    {isFund ? <small className="alert">Insuficent Balance!!</small> : null}
+                    {isFund ? (
+                      <small className='alert'>Insuficent Balance!!</small>
+                    ) : null}
                   </h3>
                 </div>
               </div>
-              <div className='transBtnContainer' onClick={handleTransfer}>
-                <div>
-                  <a className='transBtn'>
+              <div className='transBtnContainer'>
+                <button className='transBtn' onClick={handleTransfer}>
+                  <a>
                     <MdDoubleArrow className='icon' />
                     Transfer Funds
                   </a>
-                </div>
-                <Link href='/account/payment'>
-                  <a className='transBtn line'>
-                    <FaMoneyBillAlt className='icon' />
-                    Withdraw Funds
-                  </a>
-                </Link>
+                </button>
+                <button className='transBtn line'>
+                  <Link href='/account/payment'>
+                    <a>
+                      <FaMoneyBillAlt className='icon' />
+                      Withdraw Funds
+                    </a>
+                  </Link>
+                </button>
               </div>
             </div>
             <div className='transactionCard'>
-              <h4 className='title'>Transactions</h4>
               {isTransaction ? (
                 <TransactionsTable />
               ) : (
                 <div className='noTransaction'>
-                  <Image src={transImg} alt='Transactions Image' />
+                  <h3 className='title'>Transactions</h3>
                   <h5>You have no transactions</h5>
                   <p>You haven&lsquo;t make any transactions yet!</p>
+                  <Image src={transImg} alt='Transactions Image' />
                 </div>
               )}
             </div>
           </div>
           <div className='col-lg-4'>
             <div className='charts'>
-              {<AdvancedChart widgetProps={{ theme: 'light' }} /> && <AdvancedChart widgetProps={{ theme: 'light' }} /> }
+              {<AdvancedChart widgetProps={{ theme: 'light' }} /> && (
+                <AdvancedChart widgetProps={{ theme: 'light' }} />
+              )}
             </div>
           </div>
         </div>

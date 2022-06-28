@@ -1314,7 +1314,15 @@ select {
   transition: 0.5s all ease;
   white-space: nowrap;
   cursor: pointer;
+  border: none;
+  background: none;
+  text-decoration: none;
 }
+
+.transBtnContainer .transBtn a {
+  text-decoration: none;
+}
+
 
 .paymentBtn {
   background: #009879;
@@ -1341,7 +1349,7 @@ select {
   padding: 2rem;
   border-radius: 10px;
   background: #fff;
-  margin-top: 6rem;
+  margin: 4rem 0;
 }
 
 .transactionRow {
@@ -1828,8 +1836,8 @@ select {
   font-weight: 600;
   font-size: 1rem;
 }
-.balanceCard .noTransaction {
-  text-align: center;
+.transactionCard .noTransaction {
+  text-align: center !important;
   margin: 2rem 0;
 }
 
@@ -1930,8 +1938,10 @@ select {
     text-align: center;
     text-decoration: none;
     font-weight: 600;
-    padding: 20px;
+    padding: 20px 3rem;
     transition: 0.5s all ease;
+    border: none;
+    background: none;
   }
   
   .transBtnContainer .transBtn .icon {
