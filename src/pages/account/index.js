@@ -13,6 +13,7 @@ import { MdDoubleArrow } from 'react-icons/md'
 import TransactionsTable from '../../components/TransactionsTable'
 import AdvancedChart from '../../components/AdvancedChart'
 import { useRouter } from 'next/router'
+import { FaWhatsappSquare } from 'react-icons/fa'
 
 const Dashboard = ({ user, token }) => {
   const [isTransaction, setIsTransaction] = useState(false)
@@ -123,6 +124,12 @@ const Dashboard = ({ user, token }) => {
           </div>
         </div>
       </section>
+      <Link href='https://wa.link/7q2lll'>
+        <a target='_blank' className='liveChatBtn'>
+          <FaWhatsappSquare className='icon' />
+          Live Chat
+        </a>
+      </Link>
     </Layout>
   )
 }
