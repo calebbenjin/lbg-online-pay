@@ -121,9 +121,6 @@ const Dashboard = ({ user, token }) => {
                 <TradingWiget />
                 <TradingWiget />
                 <TradingWiget />
-              {/* {<AdvancedChart widgetProps={{ theme: 'light' }} /> && (
-                <AdvancedChart widgetProps={{ theme: 'light' }} />
-              )} */}
             </div>
           </div>
         </div>

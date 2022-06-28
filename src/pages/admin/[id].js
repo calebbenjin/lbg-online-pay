@@ -7,6 +7,7 @@ import { parseCookies } from '../../config/parseCookies'
 import { API_URL, NEXT_URL } from '../../config/index'
 import { dateFormater } from '../../helpers'
 import TransferForm from '../../components/TransferForm'
+import Image from 'next/image'
 
 const UserDetails = ({ userId, user, token }) => {
   const [isLoading, setIsLoding] = useState(false)
@@ -62,6 +63,7 @@ const UserDetails = ({ userId, user, token }) => {
     <Layout>
       <h4>User Details</h4>
       <hr />
+      <Image src={user.passport} alt="hello" width="100" height="100" />
       <Container fluid>
         <Row>
           <Col xl='6'>
