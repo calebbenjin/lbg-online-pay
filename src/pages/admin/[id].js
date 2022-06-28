@@ -30,6 +30,8 @@ const UserDetails = ({ userId, user, token }) => {
     },
   })
 
+  console.log(user)
+
   const onSubmit = async (data) => {
     setIsLoding(true)
     try {

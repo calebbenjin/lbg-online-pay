@@ -16,11 +16,12 @@ const TransferForm = ({ user, userId, token }) => {
     formState: { errors },
   } = useForm()
 
+  console.log(userId)
+
   const onSubmit = async (data) => {
-    console.log(data)
     setIsLoding(true)
     try {
-      const resUser = await fetch(`${API_URL}/transactions`, {
+      const resUser = await fetch(`${API_URL}/users/${userId}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -36,8 +37,11 @@ const TransferForm = ({ user, userId, token }) => {
       setTimeout(() => {
         setIsSuccess(false)
       }, 5000)
+
       const resData = await resUser.json()
-      console.log(resData)
+      if (resUser.ok) {
+        console.log(resData)
+      }
     } catch (error) {
       setIsSuccess(false)
       setIsLoding(false)
@@ -70,7 +74,9 @@ const TransferForm = ({ user, userId, token }) => {
                 placeholder='Account Number'
                 {...register('accountNumber', { required: true })}
               />
-              {errors.accountNumber && <small>Account Number is required</small>}
+              {errors.accountNumber && (
+                <small>Account Number is required</small>
+              )}
             </div>
           </Col>
           <Col xl='12'>
