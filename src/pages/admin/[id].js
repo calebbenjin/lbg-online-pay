@@ -141,14 +141,14 @@ const UserDetails = ({ userId, user, token }) => {
                     </div>
                   </Col>
                   <Col xl='6'>
-                    <div className='formControl'>
+                    {/* <div className='formControl'>
                       <label htmlFor='amount'>Amount</label>
                       <Controller
                         name='amount'
                         control={control}
                         render={({ field }) => <input {...field} />}
                       />
-                    </div>
+                    </div> */}
                   </Col>
                 </Row>
                 {isSuccess ? <div className='successAlert'>Updated</div> : null}
