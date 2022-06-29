@@ -1379,6 +1379,13 @@ select {
   border-radius: 10px;
 }
 
+.profileImg {
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 .list p {
   margin: 0;
 }

@@ -3,6 +3,7 @@ import NavLink from './Link'
 import { RiDashboardFill, RiCoinsFill } from 'react-icons/ri'
 import { MdSupportAgent } from 'react-icons/md'
 import { BiLogOutCircle } from 'react-icons/bi'
+import { FaRegUserCircle } from 'react-icons/fa'
 import { AuthContext } from '../context/Authcontext'
 
 const Sidebar = () => {
@@ -26,6 +27,12 @@ const Sidebar = () => {
           <a className="nav-link">
             <MdSupportAgent className="icon" />
             <span>Support</span>
+          </a>
+        </NavLink>
+        <NavLink href="/account/profile">
+          <a className="nav-link">
+            <FaRegUserCircle className="icon" />
+            <span>Profile</span>
           </a>
         </NavLink>
         <NavLink href="#">
