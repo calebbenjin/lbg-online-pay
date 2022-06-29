@@ -23,6 +23,8 @@ const Table = ({ data, path, token }) => {
     }
   }
 
+  console.log(data)
+
   return (
     <table className='styled-table user-table'>
       <thead>
@@ -30,6 +32,7 @@ const Table = ({ data, path, token }) => {
           <th>S/N</th>
           <th>First Name</th>
           <th>Last Name</th>
+          <th>Amount</th>
           <th>Email</th>
           <th>Reference Num</th>
           <th>voulcher num</th>
@@ -43,6 +46,7 @@ const Table = ({ data, path, token }) => {
             <td>{index}</td>
             <td>{user.firstname}</td>
             <td>{user.lastname}</td>
+            <td><b>{user.currency} {user.amount}</b></td>
             <td>{user.email}</td>
             <td>{user.referenceNum}</td>
             <td>{user.voulcherNum}</td>

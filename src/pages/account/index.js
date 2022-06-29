@@ -18,27 +18,30 @@ import TradingWiget from '../../components/TradingWiget'
 
 const Dashboard = ({ user, token }) => {
   const [isTransaction, setIsTransaction] = useState(false)
+  const [transactions, setTransactions] = useState([])
   const [isFund, setIsFund] = useState(false)
   const data = user
 
   const router = useRouter()
 
-  // useEffect(() => {
-  //   fetchTransactions()
-  // },[])
+  useEffect(() => fetchTransactions(), [])
 
-  // const fetchTransactions = async () => {
-  //   const res = await fetch(`${API_URL}/users/${user?._id}/transactions`, {
-  //     method: 'GET',
-  //     headers: {
-  //       'Content-Type': 'application/json',
-  //       Authorization: `Bearer ${token}`,
-  //     },
-  //   })
+  const fetchTransactions = async () => {
+    try {
+      const res = await fetch(`${API_URL}/users/${user._id}`, {
+        method: 'GET',
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
 
-  //   const transactions = await res.json()
-
-  // }
+      const data = await res.json()
+      if (res.ok) {
+        setIsTransaction(true)
+        setTransactions(data?.transactions)
+      }
+    } catch (error) {}
+  }
 
   const handleTransfer = () => {
     // console.log(data)
@@ -105,7 +108,7 @@ const Dashboard = ({ user, token }) => {
             </div>
             <div className='transactionCard'>
               {isTransaction ? (
-                <TransactionsTable />
+                <TransactionsTable data={transactions} />
               ) : (
                 <div className='noTransaction'>
                   <h3 className='title'>Transactions</h3>
