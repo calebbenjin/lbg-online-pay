@@ -18,7 +18,7 @@ const ProfilePage = ({ user }) => {
     },
   })
 
-  console.log(user)
+    
 
   return (
     <Layout>

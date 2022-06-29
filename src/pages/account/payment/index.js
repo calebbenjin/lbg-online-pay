@@ -23,32 +23,48 @@ const SupportPage = ({ user, token }) => {
   // console.log(user)
 
   const onSubmit = async (data) => {
+    const amount = user.amount + Number(data.amount)
+
+    // console.log(amount)
     setIsLoding(true)
     if (user.amount < data.amount || user.amount === undefined) {
       setIsLoding(false)
       setIsAlert(true)
-      console.log('Insuficent Balance!!!')
+      // console.log('Insuficent Balance!!!')
     } else {
-      const res = await fetch(`${API_URL}/users/${user?._id}/transactions`, {
+      const resUpdate = await fetch(`${API_URL}/users/${user._id}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
           Authorization: `Bearer ${token}`,
         },
-        body: JSON.stringify(data),
+        body: JSON.stringify({ amount }),
       })
 
-      const resData = await res.json()
+      if (resUpdate.ok) {
+        const res = await fetch(`${API_URL}/users/${user?._id}/transactions`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify(data),
+        })
 
-      if (res.ok) {
-        setShowModal(false)
-        setTimeout(() => {
-          setShowModal(true)
+        const resData = await res.json()
+
+        if (res.ok) {
+          setShowModal(false)
+          setTimeout(() => {
+            setShowModal(true)
+            setIsLoding(false)
+          }, 3000)
+        } else {
+          console.log('error')
           setIsLoding(false)
-        }, 3000)
+        }
       } else {
-        console.log('error')
-        setIsLoding(false)
+        console.log("Error...")
       }
     }
   }
