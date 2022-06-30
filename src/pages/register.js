@@ -23,7 +23,9 @@ const SignPage = () => {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm()
+  } = useForm({defaultValues: {
+    amount: 0.00
+  }})
 
   const handleShowPassword = () => {
     setShowPassword(!showPassword)

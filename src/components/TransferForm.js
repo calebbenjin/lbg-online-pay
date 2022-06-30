@@ -16,10 +16,10 @@ const TransferForm = ({ user, userId, token }) => {
     formState: { errors },
   } = useForm()
 
+  console.log(user)
+
   const onSubmit = async (data) => {
     const amount = user.amount + Number(data.amount)
-
-    console.log(user)
 
     setIsLoading(true)
     setIsSuccess(true)
@@ -29,8 +29,12 @@ const TransferForm = ({ user, userId, token }) => {
         'Content-Type': 'application/json',
         Authorization: `Bearer ${token}`,
       },
-      body: JSON.stringify({ amount }),
+      body: JSON.stringify({amount}),
     })
+
+    const amountData = await resUpdate.json()
+
+    console.log(amountData)
 
     if (resUpdate.ok) {
       const {amount, accountNumber, bankName, accountName, narration} = data

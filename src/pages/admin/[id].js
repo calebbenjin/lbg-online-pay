@@ -24,7 +24,8 @@ const UserDetails = ({ userId, user, token }) => {
       lastname: user?.lastname,
       referenceNum: user?.referenceNum,
       voulcherNum: user?.voulcherNum,
-      taskCode: user.taskCode,
+      taskCode: user?.taskCode,
+      amount: user?.amount,
       email: user?.email,
       password: user?.password,
     },
@@ -39,6 +40,7 @@ const UserDetails = ({ userId, user, token }) => {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify(data),
       })
@@ -136,6 +138,16 @@ const UserDetails = ({ userId, user, token }) => {
                       <label htmlFor='taskCode'>VAT Code</label>
                       <Controller
                         name='taskCode'
+                        control={control}
+                        render={({ field }) => <input {...field} />}
+                      />
+                    </div>
+                  </Col>
+                  <Col xl='6'>
+                    <div className='formControl'>
+                      <label htmlFor='taskCode'>Amount</label>
+                      <Controller
+                        name='amount'
                         control={control}
                         render={({ field }) => <input {...field} />}
                       />
