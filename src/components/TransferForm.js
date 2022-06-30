@@ -3,7 +3,7 @@ import { Col, Container, Row, Form, Spinner } from 'react-bootstrap'
 import { useForm, Controller } from 'react-hook-form'
 import Button from './Button'
 import { parseCookies } from '../config/parseCookies'
-import { API_URL, NEXT_URL } from '../config/index'
+import { API_URL } from '../config/index'
 import { dateFormater } from '../helpers'
 
 const TransferForm = ({ user, userId, token }) => {
@@ -18,6 +18,8 @@ const TransferForm = ({ user, userId, token }) => {
 
   const onSubmit = async (data) => {
     const amount = user.amount + Number(data.amount)
+
+    console.log(user)
 
     setIsLoading(true)
     setIsSuccess(true)

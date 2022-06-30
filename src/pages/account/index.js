@@ -52,8 +52,6 @@ const Dashboard = ({ user, token }) => {
     }
   }
 
-  console.log(data.transactions)
-
   return (
     <Layout>
       {/* <TradingWiget /> */}
