@@ -2,8 +2,6 @@ import React from 'react'
 import { dateFormater, formatToCurrency } from '../helpers'
 
 const TransactionsTable = ({data}) => {
-
-  console.log(data)
   return (
     <div className='transactionRow'>
       <div className='transTitle'>
@@ -24,7 +22,7 @@ const TransactionsTable = ({data}) => {
           <p>{transaction?.accountNumber}</p>
           <p>{dateFormater(transaction?.createdAt)}</p>
         </div>
-      ))}
+      )).reverse()}
     </div>
   )
 }

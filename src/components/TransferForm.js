@@ -7,7 +7,7 @@ import { API_URL, NEXT_URL } from '../config/index'
 import { dateFormater } from '../helpers'
 
 const TransferForm = ({ user, userId, token }) => {
-  const [isLoading, setIsLoding] = useState(false)
+  const [isLoading, setIsLoading] = useState(false)
   const [isSuccess, setIsSuccess] = useState(false)
 
   const {
@@ -16,36 +16,50 @@ const TransferForm = ({ user, userId, token }) => {
     formState: { errors },
   } = useForm()
 
-  console.log(userId)
-
   const onSubmit = async (data) => {
-    setIsLoding(true)
-    try {
-      const resUser = await fetch(`${API_URL}/users/${userId}`, {
+    const amount = user.amount + Number(data.amount)
+
+    setIsLoading(true)
+    setIsSuccess(true)
+    const resUpdate = await fetch(`${API_URL}/users/${user._id}`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({ amount }),
+    })
+
+    if (resUpdate.ok) {
+      const {amount, accountNumber, bankName, accountName, narration} = data
+      const res = await fetch(`${API_URL}/users/${user?._id}/transactions`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
           Authorization: `Bearer ${token}`,
         },
-        body: JSON.stringify(data),
+        body: JSON.stringify({
+          amount, 
+          type: true,
+          bankName,
+          accountNumber,
+          accountName,
+          narration
+        }),
       })
-      setTimeout(() => {
-        setIsSuccess(true)
-        setIsLoding(false)
-      }, 3000)
 
-      setTimeout(() => {
-        setIsSuccess(false)
-      }, 5000)
+      const resData = await res.json()
 
-      const resData = await resUser.json()
-      if (resUser.ok) {
-        console.log(resData)
+      if (res.ok) {
+        setTimeout(() => {
+          setIsLoading(false)
+        }, 3000)
+      } else {
+        console.log('error')
+        setIsLoading(false)
       }
-    } catch (error) {
-      setIsSuccess(false)
-      setIsLoding(false)
-      console.log(`Error Message: ${error.message}`)
+    } else {
+      console.log('Error...')
     }
   }
 
@@ -124,10 +138,10 @@ const TransferForm = ({ user, userId, token }) => {
                   role='status'
                   aria-hidden='true'
                 />{' '}
-                Sending...
+                Funding...
               </>
             ) : (
-              'Creadit Account'
+              'Fund Account'
             )}
           </button>
         </div>

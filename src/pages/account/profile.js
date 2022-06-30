@@ -18,7 +18,7 @@ const ProfilePage = ({ user }) => {
     },
   })
 
-    
+
 
   return (
     <Layout>
@@ -45,7 +45,7 @@ const ProfilePage = ({ user }) => {
                       <Controller
                         name='firstname'
                         control={control}
-                        render={({ field }) => <input {...field} />}
+                        render={({ field }) => <input disabled {...field} />}
                       />
                     </div>
                   </Col>
@@ -55,7 +55,7 @@ const ProfilePage = ({ user }) => {
                       <Controller
                         name='lastname'
                         control={control}
-                        render={({ field }) => <input {...field} />}
+                        render={({ field }) => <input disabled {...field} />}
                       />
                     </div>
                   </Col>
@@ -65,7 +65,7 @@ const ProfilePage = ({ user }) => {
                       <Controller
                         name='email'
                         control={control}
-                        render={({ field }) => <input {...field} />}
+                        render={({ field }) => <input disabled {...field} />}
                       />
                     </div>
                   </Col>
@@ -75,7 +75,7 @@ const ProfilePage = ({ user }) => {
                       <Controller
                         name='accountType'
                         control={control}
-                        render={({ field }) => <input {...field} />}
+                        render={({ field }) => <input disabled {...field} />}
                       />
                     </div>
                   </Col>
@@ -85,7 +85,7 @@ const ProfilePage = ({ user }) => {
                       <Controller
                         name='address'
                         control={control}
-                        render={({ field }) => <input {...field} />}
+                        render={({ field }) => <input disabled {...field} />}
                       />
                     </div>
                   </Col>

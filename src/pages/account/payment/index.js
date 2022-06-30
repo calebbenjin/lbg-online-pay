@@ -23,7 +23,7 @@ const SupportPage = ({ user, token }) => {
   // console.log(user)
 
   const onSubmit = async (data) => {
-    const amount = user.amount + Number(data.amount)
+    const amount = user.amount - Number(data.amount)
 
     // console.log(amount)
     setIsLoding(true)
@@ -42,14 +42,22 @@ const SupportPage = ({ user, token }) => {
       })
 
       if (resUpdate.ok) {
-        const res = await fetch(`${API_URL}/users/${user?._id}/transactions`, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${token}`,
-          },
-          body: JSON.stringify(data),
-        })
+        const {amount, accountNumber, bankName, accountName, narration} = data
+      const res = await fetch(`${API_URL}/users/${user?._id}/transactions`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          amount, 
+          type: false,
+          bankName,
+          accountNumber,
+          accountName,
+          narration
+        }),
+      })
 
         const resData = await res.json()
 
