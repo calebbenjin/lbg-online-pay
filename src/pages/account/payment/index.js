@@ -2,13 +2,9 @@ import { useState } from 'react'
 import Layout from '../../../components/AccountLayout'
 import { useForm } from 'react-hook-form'
 import { Spinner } from 'react-bootstrap'
-import Button from '../../../components/Button'
 import TaskCodeModal from '../../../components/TaskCodeModal'
 import { parseCookies } from '../../../config/parseCookies'
 import { API_URL } from '../../../config/index'
-import { formatToCurrency } from '../../../helpers'
-import { IoWalletSharp } from 'react-icons/io5'
-import Link from 'next/link'
 
 const SupportPage = ({ user, token }) => {
   const {
@@ -20,29 +16,17 @@ const SupportPage = ({ user, token }) => {
   const [isAlert, setIsAlert] = useState(false)
   const [showModal, setShowModal] = useState(false)
 
-  // console.log(user)
-
   const onSubmit = async (data) => {
-    const amount = user.amount - Number(data.amount)
-
-    // console.log(amount)
     setIsLoding(true)
     if (user.amount < data.amount || user.amount === undefined) {
       setIsLoding(false)
       setIsAlert(true)
-      // console.log('Insuficent Balance!!!')
     } else {
-      const resUpdate = await fetch(`${API_URL}/users/${user._id}`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify({ amount }),
-      })
-
-      if (resUpdate.ok) {
-        const {amount, accountNumber, bankName, accountName, narration} = data
+      const currentAmount = user.amount - Number(data.amount)
+      if (typeof window !== "undefined") {
+        window.localStorage.setItem("currentAmount", JSON.stringify(currentAmount));
+      }
+      const { amount, accountNumber, bankName, accountName, narration } = data
       const res = await fetch(`${API_URL}/users/${user?._id}/transactions`, {
         method: 'POST',
         headers: {
@@ -50,29 +34,24 @@ const SupportPage = ({ user, token }) => {
           Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify({
-          amount, 
+          amount,
           type: false,
           bankName,
           accountNumber,
           accountName,
-          narration
+          narration,
         }),
       })
 
-        const resData = await res.json()
-
-        if (res.ok) {
-          setShowModal(false)
-          setTimeout(() => {
-            setShowModal(true)
-            setIsLoding(false)
-          }, 3000)
-        } else {
-          console.log('error')
+      if (res.ok) {
+        setShowModal(false)
+        setTimeout(() => {
+          setShowModal(true)
           setIsLoding(false)
-        }
+        }, 3000)
       } else {
-        console.log("Error...")
+        console.log('error')
+        setIsLoding(false)
       }
     }
   }

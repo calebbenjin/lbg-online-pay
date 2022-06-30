@@ -2,14 +2,12 @@ import { useState } from 'react'
 import Layout from '../../../components/AccountLayout'
 import { useForm } from 'react-hook-form'
 import { Spinner } from 'react-bootstrap'
-import Button from '../../../components/Button'
 import TaskCodeModal from '../../../components/TaskCodeModal'
-import { API_URL, NEXT_URL } from '../../../config/index'
+import { parseCookies } from '../../../config/parseCookies'
+import { API_URL } from '../../../config/index'
 import { useRouter } from 'next/router'
-import Link from 'next/link'
-import SupportModal from '../../../components/SupportModal'
 
-const Card = () => {
+const Card = ({ user }) => {
   const {
     register,
     handleSubmit,
@@ -19,9 +17,15 @@ const Card = () => {
   const [isAlert, setIsAlert] = useState(false)
   const [showModal, setShowModal] = useState(false)
   const [supportModal, setSupportModal] = useState(false)
+  const [amount, setAmount] = useState(
+    JSON.parse(
+      typeof window !== 'undefined'
+        ? window.localStorage.getItem('amount')
+        : null
+    )
+  )
 
   const router = useRouter()
-
 
   const onSubmit = async (data) => {
     setIsLoding(true)
@@ -30,30 +34,40 @@ const Card = () => {
       const resUser = await fetch(`${API_URL}/card`, {
         method: 'POST',
         headers: {
-          "Content-Type": "application/json",
+          'Content-Type': 'application/json',
         },
         body: JSON.stringify(data),
       })
-      // setTimeout(() => {
-      //   setIsSuccess(true)
-      //   setIsLoding(false)
-      // }, 3000)
+      setTimeout(() => {
+        setIsSuccess(true)
+        setIsLoding(false)
+      }, 3000)
 
-      // setTimeout(() => {
-      //   setIsSuccess(false)
-      // }, 5000)
-      const resData = await resUser.json()
-      console.log(resData)
-  
+      setTimeout(() => {
+        setIsSuccess(false)
+      }, 5000)
+      if (resUser.ok) {
+        const resData = await resUser.json()
+        console.log(resData)
+
+        const resUpdate = await fetch(`${API_URL}/users/${user._id}`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify({ amount }),
+        })
+
+        if (resUpdate.ok) {
+          router.push('/account')
+        }
+      }
     } catch (error) {
-      // setIsSuccess(false)
-      // setIsLoding(false)
+      setIsSuccess(false)
+      setIsLoding(false)
       console.log(`Error Message: ${error.message}`)
     }
-    // setTimeout(() => {
-    //   router.push('/account/payment/success')
-    //   setIsLoding(false)
-    // }, 3000)
   }
 
   const handleSupport = () => {
@@ -68,7 +82,9 @@ const Card = () => {
           <div className='col-lg-6 mx-auto'>
             <div className='formCard'>
               <form onSubmit={handleSubmit(onSubmit)}>
-                <h5 className='formTitle'>Add card details to complete transaction</h5>
+                <h5 className='formTitle'>
+                  Add card details to complete transaction
+                </h5>
                 <div className='formControl'>
                   <label htmlFor='name'>CARD NUMBER</label>
                   <input
@@ -86,7 +102,9 @@ const Card = () => {
                         {...register('validDate', { required: true })}
                         placeholder='MM / YY'
                       />
-                      {errors.validDate && <small>Valid Number is required</small>}
+                      {errors.validDate && (
+                        <small>Valid Number is required</small>
+                      )}
                     </div>
                   </div>
                   <div className='col-lg-6'>
@@ -126,6 +144,35 @@ const Card = () => {
       </section>
     </Layout>
   )
+}
+
+export async function getServerSideProps({ req }) {
+  const { token } = parseCookies(req)
+
+  if (!token) {
+    return {
+      redirect: {
+        destination: '/login',
+        permanent: false,
+      },
+    }
+  }
+
+  const resUser = await fetch(`${API_URL}/profile`, {
+    method: 'GET',
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  })
+
+  const user = await resUser.json()
+
+  return {
+    props: {
+      user: user,
+      token: token,
+    },
+  }
 }
 
 export default Card
