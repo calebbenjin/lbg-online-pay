@@ -1,10 +1,7 @@
 import { useState } from 'react'
-import { Col, Container, Row, Form, Spinner } from 'react-bootstrap'
-import { useForm, Controller } from 'react-hook-form'
-import Button from './Button'
-import { parseCookies } from '../config/parseCookies'
+import { Col, Row,  Spinner } from 'react-bootstrap'
+import { useForm } from 'react-hook-form'
 import { API_URL } from '../config/index'
-import { dateFormater } from '../helpers'
 
 const TransferForm = ({ user, userId, token }) => {
   const [isLoading, setIsLoading] = useState(false)
@@ -16,7 +13,7 @@ const TransferForm = ({ user, userId, token }) => {
     formState: { errors },
   } = useForm()
 
-  console.log(user)
+  // console.log(user)
 
   const onSubmit = async (data) => {
     const amount = user.amount + Number(data.amount)
@@ -34,7 +31,7 @@ const TransferForm = ({ user, userId, token }) => {
 
     const amountData = await resUpdate.json()
 
-    console.log(amountData)
+    // console.log(amountData)
 
     if (resUpdate.ok) {
       const {amount, accountNumber, bankName, accountName, narration} = data

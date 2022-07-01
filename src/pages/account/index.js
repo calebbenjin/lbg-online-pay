@@ -36,7 +36,7 @@ const Dashboard = ({ user, token }) => {
       })
 
       const data = await res.json()
-      console.log(data)
+      // console.log(data)
       if (res.ok) {
         setIsTransaction(true)
         setTransactions(data?.transactions)
