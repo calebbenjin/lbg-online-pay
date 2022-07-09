@@ -60,7 +60,7 @@ const Table = ({ data, path, token }) => {
               </button>
             </td>
           </tr>
-        ))}
+        )).reverse()}
       </tbody>
     </table>
   )
