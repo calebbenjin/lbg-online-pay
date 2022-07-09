@@ -24,6 +24,7 @@ const Dashboard = ({ user, token }) => {
 
   const router = useRouter()
 
+
   useEffect(() => fetchTransactions(), [])
 
   const fetchTransactions = async () => {

@@ -13,57 +13,92 @@ const TransferForm = ({ user, userId, token }) => {
     formState: { errors },
   } = useForm()
 
-  // console.log(user)
-
   const onSubmit = async (data) => {
-    const amount = user.amount + Number(data.amount)
+    const currentAmount = user.amount + Number(data.amount)
 
     setIsLoading(true)
-    setIsSuccess(true)
-    const resUpdate = await fetch(`${API_URL}/users/${user._id}`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${token}`,
-      },
-      body: JSON.stringify({amount}),
-    })
+    
+    // console.log(isSuccessful, 'Transfering...')
+        const response = await fetch(`${API_URL}/users/${user?._id}/amount`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify({
+            amount: currentAmount,
+          }),
+        })
+        const { amount, accountNumber, bankName, accountName, narration } = data
+        if (response.ok) {
+          const res = await fetch(
+            `${API_URL}/users/${user?._id}/transactions`,
+            {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${token}`,
+              },
+              body: JSON.stringify({
+                amount,
+                type: true,
+                bankName,
+                accountNumber,
+                accountName,
+                narration,
+              }),
+            }
+          )
+          if (res.ok) {
+            setIsSuccess(true)
+            setIsLoading(false)
+          } else {
+            console.log('error')
+            setIsLoading(false)
+          }
+        }
 
-    const amountData = await resUpdate.json()
 
-    // console.log(amountData)
+    // const resUpdate = await fetch(`${API_URL}/users/${user._id}`, {
+    //   method: 'POST',
+    //   headers: {
+    //     'Content-Type': 'application/json',
+    //     Authorization: `Bearer ${token}`,
+    //   },
+    //   body: JSON.stringify({amount}),
+    // })
 
-    if (resUpdate.ok) {
-      const {amount, accountNumber, bankName, accountName, narration} = data
-      const res = await fetch(`${API_URL}/users/${user?._id}/transactions`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify({
-          amount, 
-          type: true,
-          bankName,
-          accountNumber,
-          accountName,
-          narration
-        }),
-      })
+    // if (resUpdate.ok) {
+    //   const {amount, accountNumber, bankName, accountName, narration} = data
+    //   const res = await fetch(`${API_URL}/users/${user?._id}/transactions`, {
+    //     method: 'POST',
+    //     headers: {
+    //       'Content-Type': 'application/json',
+    //       Authorization: `Bearer ${token}`,
+    //     },
+    //     body: JSON.stringify({
+    //       amount, 
+    //       type: true,
+    //       bankName,
+    //       accountNumber,
+    //       accountName,
+    //       narration
+    //     }),
+    //   })
 
-      const resData = await res.json()
+    //   const resData = await res.json()
 
-      if (res.ok) {
-        setTimeout(() => {
-          setIsLoading(false)
-        }, 3000)
-      } else {
-        console.log('error')
-        setIsLoading(false)
-      }
-    } else {
-      console.log('Error...')
-    }
+    //   if (res.ok) {
+    //     setTimeout(() => {
+    //       setIsLoading(false)
+    //     }, 3000)
+    //   } else {
+    //     console.log('error')
+    //     setIsLoading(false)
+    //   }
+    // } else {
+    //   console.log('Error...')
+    // }
   }
 
   return (
@@ -130,6 +165,7 @@ const TransferForm = ({ user, userId, token }) => {
             </div>
           </Col>
         </Row>
+        {isSuccess ? <div className='successAlert'>Updated</div> : null}
         <div className='formBtn'>
           <button className='paymentBtn'>
             {isLoading ? (

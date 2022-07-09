@@ -1902,11 +1902,18 @@ select {
 
 .successCard .successIcon {
   font-size: 8rem;
-  color: #025402;
+  color: #009879;
 }
 .successCard h3 {
   margin-top: 1rem;
-  margin-bottom: 3rem;
+  margin-bottom: 2rem;
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: #128387;
+}
+
+.successCard p {
+  font-weight: 600;
 }
 
 @media only screen and (max-width: 1024px) {

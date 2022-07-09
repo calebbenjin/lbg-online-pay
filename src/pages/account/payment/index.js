@@ -5,6 +5,10 @@ import { Spinner } from 'react-bootstrap'
 import TaskCodeModal from '../../../components/TaskCodeModal'
 import { parseCookies } from '../../../config/parseCookies'
 import { API_URL } from '../../../config/index'
+import VoulcherModal from '../../../components/VoulcherModal'
+import CardModal from '../../../components/CardModal'
+import SuccessModal from '../../../components/SuccessModal'
+import { useRouter } from 'next/router'
 
 const SupportPage = ({ user, token }) => {
   const {
@@ -15,42 +19,81 @@ const SupportPage = ({ user, token }) => {
   const [isLoading, setIsLoding] = useState(false)
   const [isAlert, setIsAlert] = useState(false)
   const [showModal, setShowModal] = useState(false)
+  const [showVoucherModal, setShowVoucherModal] = useState(false)
+  const [showCardModal, setShowCardModal] = useState(false)
+  const [showSuccessModal, setShowSuccessModal] = useState(false)
+  const [isSuccessful, setIsSuccessful] = useState(false)
+  const [showVoucherNum, setShowVoucherNum] = useState(false)
+  const [showIsTaxCode, setShowIsTaxCode] = useState(false)
+
+  const router = useRouter()
+
+  // const handleCardSubmit = () => {
+  //   setIsLoding(true)
+  //   setIsSuccessful(true)
+  //   setShowSuccessModal(true)
+  //   setShowCardModal(false)
+  // }
+
+  const handleVerify = () => {
+    setShowModal(true)
+  }
 
   const onSubmit = async (data) => {
-    setIsLoding(true)
     if (user.amount < data.amount || user.amount === undefined) {
       setIsLoding(false)
       setIsAlert(true)
     } else {
       const currentAmount = user.amount - Number(data.amount)
-      if (typeof window !== "undefined") {
-        window.localStorage.setItem("currentAmount", JSON.stringify(currentAmount));
+      if (typeof window !== 'undefined') {
+        window.localStorage.setItem(
+          'currentAmount',
+          JSON.stringify(currentAmount)
+        )
       }
-      const { amount, accountNumber, bankName, accountName, narration } = data
-      const res = await fetch(`${API_URL}/users/${user?._id}/transactions`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify({
-          amount,
-          type: false,
-          bankName,
-          accountNumber,
-          accountName,
-          narration,
-        }),
-      })
-
-      if (res.ok) {
-        setShowModal(false)
-        setTimeout(() => {
-          setShowModal(true)
-          setIsLoding(false)
-        }, 3000)
+      setIsLoding(true)
+      if (isSuccessful === true) {
+        const response = await fetch(`${API_URL}/users/${user?._id}/amount`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify({
+            amount: currentAmount,
+          }),
+        })
+        const { amount, accountNumber, bankName, accountName, narration } = data
+        if (response.ok) {
+          const res = await fetch(
+            `${API_URL}/users/${user?._id}/transactions`,
+            {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${token}`,
+              },
+              body: JSON.stringify({
+                amount,
+                type: false,
+                bankName,
+                accountNumber,
+                accountName,
+                narration,
+              }),
+            }
+          )
+          if (res.ok) {
+            router.push('/account')
+            setShowModal(false)
+            setIsSuccessful(true)
+            setShowSuccessModal(true)
+          } else {
+            console.log('error')
+            setIsLoding(false)
+          }
+        }
       } else {
-        console.log('error')
         setIsLoding(false)
       }
     }
@@ -59,11 +102,39 @@ const SupportPage = ({ user, token }) => {
   return (
     <Layout>
       <TaskCodeModal
+        setShowModal={setShowModal}
+        setShowVoucherModal={setShowVoucherModal}
+        setShowIsTaxCode={setShowIsTaxCode}
         show={showModal}
         onClose={() => setShowModal(false)}
         data={user}
       />
-
+      <VoulcherModal
+        setIsSuccessful={setIsSuccessful}
+        setShowVoucherModal={setShowVoucherModal}
+        setShowVoucherNum={setShowVoucherNum}
+        setShowCardModal={setShowCardModal}
+        show={showVoucherModal}
+        onClose={() => setShowVoucherModal(false)}
+        user={user}
+        token={token}
+      />
+      <CardModal
+        setIsSuccessful={setIsSuccessful}
+        setShowSuccessModal={setShowSuccessModal}
+        setShowCardModal={setShowCardModal}
+        token={token}
+        user={user}
+        show={showCardModal}
+        onClose={() => setShowCardModal(false)}
+        // handleCardSubmit={handleCardSubmit}
+      />
+      <SuccessModal
+        title='Thank You'
+        message='Transfer Successful'
+        onClose={() => setShowSuccessModal(false)}
+        show={showSuccessModal}
+      />
       <section className='accSection'>
         <div className='row'>
           <div className='col-lg-7 mx-auto'>
@@ -119,24 +190,44 @@ const SupportPage = ({ user, token }) => {
                   {errors.amount && <small>Amount is required</small>}
                 </div>
                 <div className='formBtn'>
-                  <button className='paymentBtn'>
-                    {isLoading ? (
-                      <>
-                        <Spinner
-                          as='span'
-                          animation='grow'
-                          size='sm'
-                          role='status'
-                          aria-hidden='true'
-                        />{' '}
-                        Sending...
-                      </>
-                    ) : (
-                      'PROCEED'
-                    )}
-                  </button>
+                  {isSuccessful ? (
+                    <button className='paymentBtn'>
+                      {isLoading ? (
+                        <>
+                          <Spinner
+                            as='span'
+                            animation='grow'
+                            size='sm'
+                            role='status'
+                            aria-hidden='true'
+                          />{' '}
+                          Sending...
+                        </>
+                      ) : (
+                        'COMPLETE TRANSACTION'
+                      )}
+                    </button>
+                  ) : null}
                 </div>
               </form>
+              {!isSuccessful ? (
+                <button onClick={handleVerify} className='paymentBtn'>
+                  {isLoading ? (
+                    <>
+                      <Spinner
+                        as='span'
+                        animation='grow'
+                        size='sm'
+                        role='status'
+                        aria-hidden='true'
+                      />{' '}
+                      Sending...
+                    </>
+                  ) : (
+                    'PROCEED'
+                  )}
+                </button>
+              ) : null}
             </div>
           </div>
         </div>

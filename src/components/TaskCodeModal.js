@@ -6,7 +6,7 @@ import Button from './Button'
 import { useRouter } from 'next/router'
 import SupportModal from './SupportModal'
 
-const TaskCodeModal = ({show, onClose, data}) => {
+const TaskCodeModal = ({show, onClose, data, setShowIsTaxCode, setShowModal, setShowVoucherModal }) => {
   const [isLoading, setIsLoding] = useState(false)
   const [isError, setIsError] = useState(false)
   const [isSuccess, setIsSuccess] = useState(false)
@@ -27,8 +27,10 @@ const TaskCodeModal = ({show, onClose, data}) => {
       setTimeout(() => {
         setIsSuccess(true)
         setIsLoding(false)
-        router.push('/account/payment/voulcher')
-    }, 2000)
+        setShowModal(false)
+        setShowVoucherModal(true)
+      }, 2000)
+      setShowIsTaxCode(true)
       console.log('Successful...')
     } else {
       setIsLoding(false)
