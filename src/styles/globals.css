@@ -853,7 +853,7 @@ textarea {
 .styled-table tbody tr:nth-of-type(even) {
   background-color: #f3f3f3;
 }
-.user-table tbody tr:nth-child(1) {
+.user-table tbody tr:nth-child(0) {
   display: none;
 }
 
