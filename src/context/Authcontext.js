@@ -38,8 +38,8 @@ const AuthProvider = ({ children }) => {
 
     const data = await res.json()
 
+    console.log(data)
     if (res.ok) {
-      console.log(data.apiData)
       setUser(data)
       if (data?.apiData?.isAdmin == true) {
         router.push('/admin')
@@ -130,6 +130,7 @@ const AuthProvider = ({ children }) => {
     email,
     title,
     accountType,
+    amount,
     gender,
     phone,
     nationality,
@@ -138,7 +139,8 @@ const AuthProvider = ({ children }) => {
     dob,
     passport,
     address,
-    password,}) => {
+    password}) => {
+      
     setIsLoading(true)
     setTimeout(() => {
       setIsLoading(false)
@@ -152,6 +154,7 @@ const AuthProvider = ({ children }) => {
         firstname,
         lastname,
         email,
+        amount,
         title,
         accountType,
         gender,
@@ -167,6 +170,8 @@ const AuthProvider = ({ children }) => {
     })
 
     const resData = await res.json()
+
+    console.log(resData)
 
     if (res.ok) {
       router.push('/login')
@@ -228,6 +233,7 @@ const AuthProvider = ({ children }) => {
       setIsLoading(false)
     }
   }
+
   // Check if user is logged in
   // ================================================
   // const checkUserLoggedIn = async () => {

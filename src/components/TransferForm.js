@@ -1,11 +1,16 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Col, Row,  Spinner } from 'react-bootstrap'
 import { useForm } from 'react-hook-form'
 import { API_URL } from '../config/index'
+import { formatToCurrency } from '../helpers'
+import { useRouter } from 'next/router'
 
-const TransferForm = ({ user, userId, token }) => {
+const TransferForm = ({ userId, token }) => {
   const [isLoading, setIsLoading] = useState(false)
   const [isSuccess, setIsSuccess] = useState(false)
+  const [formData, setFormData] = useState({})
+  const [user, setUser] = useState({})
+  const router = useRouter()
 
   const {
     register,
@@ -13,50 +18,74 @@ const TransferForm = ({ user, userId, token }) => {
     formState: { errors },
   } = useForm()
 
-  const onSubmit = async (data) => {
-    const currentAmount = user.amount + Number(data.amount)
+  // console.log(user)
 
+  useEffect(() => fastRefresh(), [formData])
+
+  const fastRefresh = async () => {
+    const res = await fetch(`${API_URL}/users/${userId}`, {
+      method: 'GET',
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
+
+    const data = await res.json()
+
+    setUser(data)
+  }
+
+  const handleAmount = async (data) => {
     setIsLoading(true)
-    
-    // console.log(isSuccessful, 'Transfering...')
-        const response = await fetch(`${API_URL}/users/${user?._id}/amount`, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${token}`,
-          },
-          body: JSON.stringify({
-            amount: currentAmount,
-          }),
-        })
-        const { amount, accountNumber, bankName, accountName, narration } = data
-        if (response.ok) {
-          const res = await fetch(
-            `${API_URL}/users/${user?._id}/transactions`,
-            {
-              method: 'POST',
-              headers: {
-                'Content-Type': 'application/json',
-                Authorization: `Bearer ${token}`,
-              },
-              body: JSON.stringify({
-                amount,
-                type: true,
-                bankName,
-                accountNumber,
-                accountName,
-                narration,
-              }),
-            }
-          )
-          if (res.ok) {
-            setIsSuccess(true)
-            setIsLoading(false)
-          } else {
-            console.log('error')
-            setIsLoading(false)
+    setFormData(data)
+
+      console.log(user)
+
+      const response = await fetch(`${API_URL}/users/${user?._id}/amount`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          amount: user.amount + Number(data.amount)
+        }),
+      })
+      const { amount, accountNumber, bankName, accountName, narration } = data
+
+      if (data.amount) {
+        const res = await fetch(
+          `${API_URL}/users/${user?._id}/transactions`,
+          {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              Authorization: `Bearer ${token}`,
+            },
+            body: JSON.stringify({
+              amount,
+              type: true,
+              bankName,
+              accountNumber,
+              accountName,
+              narration,
+            }),
           }
+        )
+        if (res.ok) {
+          setIsSuccess(true)
+          router.reload()
+          setIsLoading(false)
+        } else {
+          console.log('error')
+          setIsLoading(false)
         }
+      } else {
+        setIsLoading(false)
+        console.log(" Error")
+      }
+
+
 
 
     // const resUpdate = await fetch(`${API_URL}/users/${user._id}`, {
@@ -103,7 +132,8 @@ const TransferForm = ({ user, userId, token }) => {
 
   return (
     <div className='formContainer'>
-      <form onSubmit={handleSubmit(onSubmit)}>
+      <h4 className="mb-4">Current Balance: <b>{user?.currency}{formatToCurrency(Number(user?.amount))}</b></h4>
+      <form onSubmit={handleSubmit(handleAmount)}>
         <h5 className='mt-4'>Fund User Account</h5>
         <hr />
         <Row>

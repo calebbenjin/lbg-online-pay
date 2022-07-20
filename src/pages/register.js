@@ -24,7 +24,7 @@ const SignPage = () => {
     handleSubmit,
     formState: { errors },
   } = useForm({defaultValues: {
-    amount: 0.00
+    amount: "0"
   }})
 
   const handleShowPassword = () => {
@@ -32,40 +32,56 @@ const SignPage = () => {
   }
 
   const onSubmit = async (data) => {
-    setLoading(true)
-    const {
-      firstname,
-      lastname,
-      email,
-      title,
-      accountType,
-      gender,
-      phone,
-      nationality,
-      currency,
-      idType,
-      dob,
-      address,
-      password,
-    } = data
-    const passport = data.passportImg[0]?.name
-
-    signup({
-      firstname,
-      lastname,
-      email,
-      title,
-      accountType,
-      gender,
-      phone,
-      nationality,
-      currency,
-      idType,
-      dob,
-      passport,
-      address,
-      password,
+    const res = await fetch(`${API_URL}/register`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({}),
     })
+
+    const resData = await res.json()
+
+    console.log(resData)
+    // setLoading(true)
+    // const {
+    //   firstname,
+    //   lastname,
+    //   // amount,
+    //   email,
+    //   title,
+    //   accountType,
+    //   gender,
+    //   phone,
+    //   nationality,
+    //   currency,
+    //   idType,
+    //   dob,
+    //   address,
+    //   password,
+    // } = data
+
+    // const passport = data.passportImg[0]?.name
+
+    // console.log(data.passportImg[0]?.name)
+
+    // signup({
+    //   firstname,
+    //   lastname,
+    //   // amount,
+    //   email,
+    //   title,
+    //   accountType,
+    //   gender,
+    //   phone,
+    //   nationality,
+    //   currency,
+    //   idType,
+    //   dob,
+    //   passport,
+    //   address,
+    //   password,
+    // })
   }
 
   const handleShowStepOne = () => {
@@ -115,12 +131,12 @@ const SignPage = () => {
 
             <form onSubmit={handleSubmit(onSubmit)}>
               {stepOne ? (
-                <div>
+                {/* <div>
                   <Row>
                     <Col lg={6}>
                       <div className='input-group'>
                         <label htmlFor='lastname'>Title</label>
-                        <select {...register('title')}>
+                        <select {...register('title')} required>
                           <option>Select Your Title</option>
                           <option value='Mr'>Mr</option>
                           <option value='Mrs'>Mrs</option>
@@ -135,6 +151,7 @@ const SignPage = () => {
                       <div className='input-group'>
                         <label htmlFor='text'>First name</label>
                         <input
+                          required
                           type='text'
                           {...register('firstname', { required: true })}
                           placeholder='Your firstname'
@@ -144,10 +161,12 @@ const SignPage = () => {
                         )}
                       </div>
                     </Col>
+                    
                     <Col lg='6'>
                       <div className='input-group'>
                         <label htmlFor='lastname'>Last name</label>
                         <input
+                        required
                           type='text'
                           {...register('lastname', { required: true })}
                           placeholder='Your Last name'
@@ -160,6 +179,7 @@ const SignPage = () => {
                         <label htmlFor='password'>Create Password</label>
                         <div className='password'>
                           <input
+                            required
                             type={showPassword ? 'text' : 'password'}
                             {...register('password', { required: true })}
                             placeholder='Your password'
@@ -170,16 +190,11 @@ const SignPage = () => {
                       </div>
                     </Col>
                   </Row>
-                  {/* <div className="btnFlex">
-                      <p className='nextBtn' onClick={handleShowStepOne}>
-                        Next
-                      </p>
-                    </div> */}
-                </div>
+                </div> */}
               ) : null}
 
               {stepTwo ? (
-                <div>
+                {/* <div>
                   <p className='sub_title'>Contact details</p>
                   <Row>
                     <Col lg='12'>
@@ -189,6 +204,7 @@ const SignPage = () => {
                           type='text'
                           {...register('address', { required: true })}
                           placeholder='Your Residential address'
+                          required
                         />
                         {errors.address && <span>This field is required</span>}
                       </div>
@@ -198,6 +214,7 @@ const SignPage = () => {
                         <label htmlFor='dob'>Date of Birth</label>
                         <input
                           type='date'
+                          required
                           {...register('dob', { required: true })}
                         />
                         {errors.dob && <span>This field is required</span>}
@@ -210,6 +227,7 @@ const SignPage = () => {
                           type='phone'
                           {...register('phone', { required: true })}
                           placeholder='Your Cell Number'
+                          required
                         />
                         {errors.phone && <span>This field is required</span>}
                       </div>
@@ -217,7 +235,7 @@ const SignPage = () => {
                     <Col lg='4'>
                       <div className='input-group'>
                         <label htmlFor='gender'>Gender *</label>
-                        <select {...register('gender', { required: true })}>
+                        <select {...register('gender', { required: true })} required>
                           <option data-display='Select Title'>Gender</option>
                           <option value='male'>Male</option>
                           <option value='female'>female.</option>
@@ -233,6 +251,7 @@ const SignPage = () => {
                           type='email'
                           {...register('email', { required: true })}
                           placeholder='Your email address'
+                          required
                         />
                         {errors.email && <span>This field is required</span>}
                       </div>
@@ -243,7 +262,7 @@ const SignPage = () => {
                         <label htmlFor='nationality'>
                           Nationality / Citizenship *
                         </label>
-                        <select {...register('nationality')}>
+                        <select {...register('nationality')} required>
                           <option data-display='Choose your country'>
                             Countries
                           </option>
@@ -587,19 +606,11 @@ const SignPage = () => {
                       </div>
                     </Col>
                   </Row>
-                  {/* <div className="btnFlex">
-                    <p className='prevBtn' onClick={handlePreviousOne}>
-                      Previous
-                    </p>
-                    <p className='nextBtn' onClick={handleShowStepTwo}>
-                      Next
-                    </p>
-                  </div> */}
-                </div>
+                </div> */}
               ) : null}
 
               {stepThree ? (
-                <>
+                {/* <>
                   <p className='sub_title'>Identification</p>
                   <Row>
                     <Col xl='6'>
@@ -607,6 +618,7 @@ const SignPage = () => {
                         <label htmlFor='accountType'>Account Type</label>
                         <select
                           {...register('accountType', { required: true })}
+                          required
                         >
                           <option>Choose Account Type</option>
                           <option value='Current'>Current Account</option>
@@ -624,7 +636,7 @@ const SignPage = () => {
                     <Col xl='6'>
                       <div className='formControl'>
                         <label htmlFor='currency'>Currency</label>
-                        <select {...register('currency', { required: true })}>
+                        <select {...register('currency', { required: true })} required>
                           <option>Choose Currency</option>
                           <option value='USD'>USD</option>
                           <option value='EURO'>EURO</option>
@@ -643,7 +655,7 @@ const SignPage = () => {
                     <Col xl='6'>
                       <div className='formControl'>
                         <label htmlFor='email'>Identity Type</label>
-                        <select {...register('idType', { required: true })}>
+                        <select {...register('idType', { required: true })} required>
                           <option value='passport'>Passport</option>
                           <option value='id'>ID</option>
                           <option value='Drivers licence'>
@@ -653,12 +665,13 @@ const SignPage = () => {
                         {errors.idType && <span>This field is required</span>}
                       </div>
                     </Col>
-                    {/* <Col lg='12'>
+                    <Col lg='12'>
                       <div className='input-group passport'>
                         <label htmlFor='passport'>
                           Upload a valid Government issued Identification:
                         </label>
                         <input
+                          required
                           type='file'
                           {...register('passportImg', { required: true })}
                           name='passportImg'
@@ -667,14 +680,9 @@ const SignPage = () => {
                           <span>This field is required</span>
                         )}
                       </div>
-                    </Col> */}
+                    </Col>
                   </Row>
-                  {/* <div className="btnFlex">
-                      <p className='prevBtn' onClick={handlePreviousTwo}>
-                        Previous
-                      </p>
-                    </div> */}
-                </>
+                </> */}
               ) : null}
               <button className='login-btn'>
                 {isLoading ? 'Creating Account...' : 'Create Account'}

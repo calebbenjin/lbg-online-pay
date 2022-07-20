@@ -6,11 +6,10 @@ import Sidebar from './Sidebar'
 import { AuthContext } from '../context/Authcontext'
 import Logo from './Logo'
 import TradingWiget from './TradingWiget'
+import { IMG_URL } from '../config/index'
 
 const Layout = ({ children, data }) => {
   const { logout } = useContext(AuthContext)
-
-  console.log(data.passport)
 
   return (
     <div className="layoutContainer">
@@ -27,7 +26,7 @@ const Layout = ({ children, data }) => {
               //   height='50'
               //   className='profile'
               // />
-              <img src={data.passport} alt="Profile Image" />
+              <img src={`${IMG_URL}${data.passport}`} className="logoImg" alt="Profile Image" />
             }
             id='basic-nav-dropdown'
           >

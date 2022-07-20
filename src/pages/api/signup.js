@@ -7,6 +7,7 @@ const signup = async (req, res) => {
       lastname,
       email,
       title,
+      amount,
       accountType,
       gender,
       phone,
@@ -22,6 +23,7 @@ const signup = async (req, res) => {
     console.log({
       firstname,
       lastname,
+      amount,
       email,
       title,
       accountType,
@@ -45,6 +47,7 @@ const signup = async (req, res) => {
         firstname,
         lastname,
         email,
+        amount,
         title,
         accountType,
         gender,

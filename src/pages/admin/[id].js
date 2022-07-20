@@ -4,14 +4,16 @@ import Layout from '../../components/AdminLayout'
 import { useForm, Controller } from 'react-hook-form'
 import Button from '../../components/Button'
 import { parseCookies } from '../../config/parseCookies'
-import { API_URL } from '../../config/index'
+import { API_URL, IMG_URL } from '../../config/index'
 import { dateFormater } from '../../helpers'
 import TransferForm from '../../components/TransferForm'
 import Image from 'next/image'
+import { useRouter } from 'next/router'
 
 const UserDetails = ({ userId, user, token }) => {
   const [isLoading, setIsLoding] = useState(false)
   const [isSuccess, setIsSuccess] = useState(false)
+  const router = useRouter()
 
   const {
     control,
@@ -51,12 +53,15 @@ const UserDetails = ({ userId, user, token }) => {
         setIsSuccess(false)
       }, 5000)
       const resData = await resUser.json()
+      router.reload()
     } catch (error) {
       setIsSuccess(false)
       setIsLoding(false)
       console.log(`Error Message: ${error.message}`)
     }
   }
+
+
 
   return (
     <Layout>
@@ -216,6 +221,10 @@ const UserDetails = ({ userId, user, token }) => {
           </Col>
           <Col xl='6'>
             <TransferForm userId={userId} user={user} token={token} />
+            
+            <div className="userImageContainer">
+              <img src={`${IMG_URL}${user.passport}`} alt="Profile Image" />
+            </div>
           </Col>
         </Row>
       </Container>

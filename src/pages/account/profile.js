@@ -3,7 +3,7 @@ import Layout from '../../components/AccountLayout'
 import { Col, Container, Row, Form, Spinner } from 'react-bootstrap'
 import { useForm, Controller } from 'react-hook-form'
 import { parseCookies } from '../../config/parseCookies'
-import { API_URL } from '../../config/index'
+import { API_URL, IMG_URL } from '../../config/index'
 import Image from 'next/image'
 import userProfile from '../../public/user.png'
 
@@ -28,13 +28,14 @@ const ProfilePage = ({ user }) => {
         <div className='col-lg-8 mx-auto'>
           <div className='transactionCard '>
             <div className='profileImg'>
-              <Image
+              {/* <Image
                 src={userProfile}
                 alt='user profile'
                 width='150'
                 height='150'
                 className='profile'
-              />
+              /> */}
+              <img src={`${IMG_URL}${user.passport}`} className="profileImg" alt="Profile Image" />
             </div>
             <div className='formContainer userForm'>
               <form>
