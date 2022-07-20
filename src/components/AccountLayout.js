@@ -7,8 +7,10 @@ import { AuthContext } from '../context/Authcontext'
 import Logo from './Logo'
 import TradingWiget from './TradingWiget'
 
-const Layout = ({ children }) => {
+const Layout = ({ children, data }) => {
   const { logout } = useContext(AuthContext)
+
+  console.log(data.passport)
 
   return (
     <div className="layoutContainer">
@@ -18,13 +20,14 @@ const Layout = ({ children }) => {
 
           <NavDropdown
             title={
-              <Image
-                src={userProfile}
-                alt='user profile'
-                width='50'
-                height='50'
-                className='profile'
-              />
+              // <Image
+              //   src={data.passport}
+              //   alt='user profile'
+              //   width='50'
+              //   height='50'
+              //   className='profile'
+              // />
+              <img src={data.passport} alt="Profile Image" />
             }
             id='basic-nav-dropdown'
           >

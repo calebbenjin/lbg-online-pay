@@ -39,8 +39,9 @@ const AuthProvider = ({ children }) => {
     const data = await res.json()
 
     if (res.ok) {
+      console.log(data.apiData)
       setUser(data)
-      if (data.apiData.isAdmin === true) {
+      if (data?.apiData?.isAdmin == true) {
         router.push('/admin')
       } else {
         router.push('/account')

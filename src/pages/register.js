@@ -653,7 +653,7 @@ const SignPage = () => {
                         {errors.idType && <span>This field is required</span>}
                       </div>
                     </Col>
-                    <Col lg='12'>
+                    {/* <Col lg='12'>
                       <div className='input-group passport'>
                         <label htmlFor='passport'>
                           Upload a valid Government issued Identification:
@@ -667,7 +667,7 @@ const SignPage = () => {
                           <span>This field is required</span>
                         )}
                       </div>
-                    </Col>
+                    </Col> */}
                   </Row>
                   {/* <div className="btnFlex">
                       <p className='prevBtn' onClick={handlePreviousTwo}>

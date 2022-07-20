@@ -37,7 +37,6 @@ const Dashboard = ({ user, token }) => {
       })
 
       const data = await res.json()
-      // console.log(data)
       if (res.ok) {
         setIsTransaction(true)
         setTransactions(data?.transactions)
@@ -55,7 +54,7 @@ const Dashboard = ({ user, token }) => {
   }
 
   return (
-    <Layout>
+    <Layout data={user}>
       {/* <TradingWiget /> */}
       <header className='accHeader'>
         <div className='title'>
@@ -149,6 +148,8 @@ export async function getServerSideProps({ req }) {
       },
     }
   }
+
+  // console.log(req.headers)
 
   const resUser = await fetch(`${API_URL}/profile`, {
     method: 'GET',
