@@ -30,7 +30,7 @@ const TransactionsPage = ({ user, token }) => {
   }
 
   return (
-    <Layout>
+    <Layout data={user}>
 
       <section className='accSection'>
         <div className='row'>

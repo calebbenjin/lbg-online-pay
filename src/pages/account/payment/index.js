@@ -100,7 +100,7 @@ const SupportPage = ({ user, token }) => {
   }
 
   return (
-    <Layout>
+    <Layout data={user}>
       <TaskCodeModal
         setShowModal={setShowModal}
         setShowVoucherModal={setShowVoucherModal}

@@ -48,7 +48,7 @@ const Voulcher = ({ user }) => {
   }
 
   return (
-    <Layout>
+    <Layout data={user}>
       <TaskCodeModal show={showModal} onClose={() => setShowModal(false)} />
       <section className='accSection'>
         <div className='row'>

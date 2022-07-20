@@ -21,7 +21,7 @@ const ProfilePage = ({ user }) => {
 
 
   return (
-    <Layout>
+    <Layout data={user}>
       <h1>My profile</h1>
 
       <div className='row'>

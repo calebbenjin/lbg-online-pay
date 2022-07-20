@@ -7,10 +7,12 @@ import { Spinner } from 'react-bootstrap'
 import Button from '../../components/Button'
 import AlertDismissible from '../../components/AlertDismissible'
 import contactImg from '../../public/contactus.png'
+import { parseCookies } from '../../config/parseCookies'
+import { API_URL } from '../../config/index'
 import Image from 'next/image'
 import { AuthContext } from '../../context/Authcontext'
 
-const SupportPage = () => {
+const SupportPage = ({user}) => {
   const { support, isAlert, isLoading } = useContext(AuthContext)
   const {
     register,
@@ -23,7 +25,7 @@ const SupportPage = () => {
   }
 
   return (
-    <Layout>
+    <Layout data={user}>
       <header className='accHeader'>
         <div className='title'>
           <h2>Support</h2>
@@ -122,6 +124,37 @@ const SupportPage = () => {
       </section>
     </Layout>
   )
+}
+
+export async function getServerSideProps({ req }) {
+  const { token } = parseCookies(req)
+
+  if (!token) {
+    return {
+      redirect: {
+        destination: '/login',
+        permanent: false,
+      },
+    }
+  }
+
+  // console.log(req.headers)
+
+  const resUser = await fetch(`${API_URL}/profile`, {
+    method: 'GET',
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  })
+
+  const user = await resUser.json()
+
+  return {
+    props: {
+      user: user,
+      token: token,
+    },
+  }
 }
 
 export default SupportPage
