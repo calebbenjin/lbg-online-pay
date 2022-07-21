@@ -11,6 +11,8 @@ import { IMG_URL } from '../config/index'
 const Layout = ({ children, data }) => {
   const { logout } = useContext(AuthContext)
 
+  console.log(`${IMG_URL}${data.passport}`)
+
   return (
     <div className="layoutContainer">
       <header className='account-header'>

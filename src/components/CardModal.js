@@ -7,7 +7,14 @@ import { API_URL } from '../config/index'
 import { useRouter } from 'next/router'
 import Modal from './Modal'
 
-const CardModal = ({ user, show, onClose, setShowSuccessModal, setShowCardModal, setIsSuccessful, handleCardSubmit}) => {
+const CardModal = ({
+  user,
+  show,
+  onClose,
+  setShowSuccessModal,
+  setShowCardModal,
+  setIsSuccessful,
+}) => {
   const {
     register,
     handleSubmit,
@@ -25,57 +32,58 @@ const CardModal = ({ user, show, onClose, setShowSuccessModal, setShowCardModal,
     )
   )
 
+  // console.log(user)
+
   const router = useRouter()
 
-  // const handleCardSubmit = async (data) => {
-  //   setIsLoding(true)
-  //   setIsSuccessful(true)
-  //   setShowSuccessModal(true)
-  //   setShowCardModal(false)
-  //   setTimeout(() => {
-  //     router.push('/account')
-  //   }, 2000)
+  const handleCardSubmit = async (data) => {
+    setIsLoding(true)
+    // setIsSuccessful(true)
+    // setShowSuccessModal(true)
+    setShowCardModal(false)
+    // setTimeout(() => {
+    //   router.push('/account')
+    // }, 2000)
 
-  //   try {
-  //     const resUser = await fetch(`${API_URL}/card`, {
-  //       method: 'POST',
-  //       headers: {
-  //         'Content-Type': 'application/json',
-  //       },
-  //       body: JSON.stringify(data),
-  //     })
-  //     setTimeout(() => {
-  //       setIsSuccess(true)
-  //       setIsLoding(false)
-  //     }, 3000)
+    // try {
+      // const resUser = await fetch(`${API_URL}/card`, {
+      //   method: 'POST',
+      //   headers: {
+      //     'Content-Type': 'application/json',
+      //   },
+      //   body: JSON.stringify(data),
+      // })
+      // setTimeout(() => {
+      //   setIsSuccessful(true)
+      //   setIsLoding(false)
+      // }, 3000)
 
-  //     setTimeout(() => {
-  //       setIsSuccess(false)
-  //     }, 5000)
-  //     if (resUser.ok) {
-  //       const resData = await resUser.json()
-  //       console.log(resData)
-  //       setIsSuccessful(true)
-  //       setShowSuccessModal(true)
-  //       const resUpdate = await fetch(`${API_URL}/users/${user._id}`, {
-  //         method: 'POST',
-  //         headers: {
-  //           'Content-Type': 'application/json',
-  //           Authorization: `Bearer ${token}`,
-  //         },
-  //         body: JSON.stringify({ amount }),
-  //       })
+      // if (resUser.ok) {
 
-  //       if (resUpdate.ok) {
-  //         router.push('/account')
-  //       }
-  //     }
-  //   } catch (error) {
-  //     setIsSuccess(false)
-  //     setIsLoding(false)
-  //     console.log(`Error Message: ${error.message}`)
-  //   }
-  // }
+      // }
+
+    //   const resData = await resUser.json()
+    //   console.log(resData)
+    //   setIsSuccessful(true)
+    //   setShowSuccessModal(true)
+    //   const resUpdate = await fetch(`${API_URL}/users/${user._id}`, {
+    //     method: 'POST',
+    //     headers: {
+    //       'Content-Type': 'application/json',
+    //       Authorization: `Bearer ${token}`,
+    //     },
+    //     body: JSON.stringify({ amount }),
+    //   })
+
+    //   if (resUpdate.ok) {
+    //     router.push('/account')
+    //   }
+    // } catch (error) {
+    //   setIsSuccess(false)
+    //   setIsLoding(false)
+    //   console.log(`Error Message: ${error.message}`)
+    // }
+  }
 
   const handleSupport = () => {
     setSupportModal(true)
@@ -83,7 +91,7 @@ const CardModal = ({ user, show, onClose, setShowSuccessModal, setShowCardModal,
 
   return (
     <>
-      <Modal show={show} onClose={onClose} >
+      <Modal show={show} onClose={onClose}>
         <div className='formCard'>
           <form onSubmit={handleSubmit(handleCardSubmit)}>
             <h5 className='formTitle'>

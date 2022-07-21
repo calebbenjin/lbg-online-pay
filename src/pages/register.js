@@ -7,108 +7,115 @@ import { AuthContext } from '../context/Authcontext'
 import logo from '../public/img/logo.jpeg'
 import Image from 'next/image'
 import Loader from '../components/Loader'
+import { API_URL } from '../config/index'
+import axios from 'axios'
+import { useRouter } from 'next/router'
 
 let randomNum = ''
 const SignPage = () => {
   const { signup, isLoading, errorMessage } = useContext(AuthContext)
   const [loading, setLoading] = useState(false)
-  const [stepOne, setStepOne] = useState(true)
-  const [stepTwo, setStepTwo] = useState(true)
-  const [stepThree, setStepThree] = useState(true)
-  const [accountNumber, setAccountNumber] = useState(
-    (randomNum += Math.round(Math.random() * 9) + 2779864789)
-  )
+  const [error, setError] = useState(false)
+  const [title, setTitle] = useState('')
+  const [firstname, setFirstname] = useState('')
+  const [lastname, setLastname] = useState('')
+  const [password, setPassword] = useState('')
+  const [address, setAddress] = useState('')
+  const [dob, setDob] = useState('')
+  const [phone, setPhone] = useState('')
+  const [gender, setGender] = useState('')
+  const [email, setEmail] = useState('')
+  const [nationality, setNationality] = useState('')
+  const [accountType, setAccountType] = useState('')
+  const [currency, setCurrency] = useState('')
+  const [idType, setIdType] = useState('')
+  const [amount, setAmount] = useState(0)
+  const [passport, setPassport] = useState('')
   const [showPassword, setShowPassword] = useState(false)
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm({defaultValues: {
-    amount: "0"
-  }})
+  const [isRequired, setIsRequired] = useState(false)
+
+  const router = useRouter()
+
+  const uploadFileHandler = async (e) => {
+    const file = e.target.files[0]
+    const formData = new FormData()
+    formData.append('passport', file)
+
+    try {
+      const config = {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      }
+
+      const { data } = await axios.post(`${API_URL}/upload`, formData, config)
+
+      console.log(data)
+
+      setPassport(data)
+    } catch (error) {
+      console.error(error)
+    }
+
+  }
 
   const handleShowPassword = () => {
     setShowPassword(!showPassword)
   }
 
-  const onSubmit = async (data) => {
-    const res = await fetch(`${API_URL}/register`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({}),
-    })
+  const handleSubmit = async (e) => {
+    e.preventDefault()
+    
+    const data = {
+      firstname,
+      passport,
+      lastname,
+      amount,
+      email,
+      title,
+      accountType,
+      gender,
+      phone,
+      nationality,
+      currency,
+      idType,
+      dob,
+      address,
+      password,
+    }
+    setLoading(true)
 
-    const resData = await res.json()
+    try {
+      const config = {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      }
 
-    console.log(resData)
-    // setLoading(true)
-    // const {
-    //   firstname,
-    //   lastname,
-    //   // amount,
-    //   email,
-    //   title,
-    //   accountType,
-    //   gender,
-    //   phone,
-    //   nationality,
-    //   currency,
-    //   idType,
-    //   dob,
-    //   address,
-    //   password,
-    // } = data
+      const { data } = await axios.post(`${API_URL}/register`, {firstname,
+        lastname,
+        amount,
+        email,
+        title,
+        accountType,
+        gender,
+        phone,
+        nationality,
+        currency,
+        idType,
+        dob,
+        address,
+        passport,
+        password}, config)
 
-    // const passport = data.passportImg[0]?.name
-
-    // console.log(data.passportImg[0]?.name)
-
-    // signup({
-    //   firstname,
-    //   lastname,
-    //   // amount,
-    //   email,
-    //   title,
-    //   accountType,
-    //   gender,
-    //   phone,
-    //   nationality,
-    //   currency,
-    //   idType,
-    //   dob,
-    //   passport,
-    //   address,
-    //   password,
-    // })
-  }
-
-  const handleShowStepOne = () => {
-    setStepOne(false)
-    setStepTwo(true)
-  }
-
-  const handlePreviousOne = () => {
-    setStepOne(true)
-    setStepTwo(false)
-  }
-
-  const handlePreviousTwo = () => {
-    setStepTwo(true)
-    setStepThree(false)
-  }
-
-  const handleShowStepTwo = () => {
-    setStepOne(false)
-    setStepTwo(false)
-    setStepThree(!stepThree)
-  }
-
-  const handleShowStepThree = () => {
-    setStepOne(false)
-    setStepTwo(false)
-    setStepThree(!stepThree)
+      setPassport(data)
+      router.push('/login')
+    } catch (error) {
+      console.log(error)
+      setError(true)
+      setTimeout(() => setError(false), 3000)
+      setLoading(false)
+    }
   }
 
   if (isLoading) {
@@ -129,49 +136,60 @@ const SignPage = () => {
               <div className='errorMessage'>{errorMessage}</div>
             ) : null}
 
-            <form onSubmit={handleSubmit(onSubmit)}>
-              {stepOne ? (
-                {/* <div>
+            <form onSubmit={handleSubmit}>
+              
+                <div>
                   <Row>
                     <Col lg={6}>
                       <div className='input-group'>
                         <label htmlFor='lastname'>Title</label>
-                        <select {...register('title')} required>
-                          <option>Select Your Title</option>
+                        <select value={title} name="title" onChange={(e) => setTitle(e.target.value)} required={true} >
+                          <option value="" disabled >Select Your Title</option>
                           <option value='Mr'>Mr</option>
                           <option value='Mrs'>Mrs</option>
                           <option value='Ms'>Ms</option>
                           <option value='Miss'>Miss</option>
                           <option value='Dr'>Dr</option>
                         </select>
-                        {errors.title && <span>This field is required</span>}
                       </div>
                     </Col>
+
                     <Col lg='6'>
                       <div className='input-group'>
                         <label htmlFor='text'>First name</label>
                         <input
-                          required
+                          required={true}
                           type='text'
-                          {...register('firstname', { required: true })}
+                          // {...register('firstname', { required: true })}
                           placeholder='Your firstname'
+                          name="firstname"
+                          value={firstname}
+                          onChange={(e) => setFirstname(e.target.value)}
                         />
-                        {errors.firstname && (
-                          <span>This field is required</span>
-                        )}
                       </div>
                     </Col>
                     
-                    <Col lg='6'>
+                   <Col lg='6'>
                       <div className='input-group'>
                         <label htmlFor='lastname'>Last name</label>
                         <input
-                        required
+                          required={true}
                           type='text'
-                          {...register('lastname', { required: true })}
+                          // {...register('lastname', { required: true })}
+                          name="lastname"
+                          value={lastname}
+                          onChange={(e) => setLastname(e.target.value)}
                           placeholder='Your Last name'
                         />
-                        {errors.lastname && <span>This field is required</span>}
+                        <input
+                          required={true}
+                          type='text'
+                          // {...register('lastname', { required: true })}
+                          name="amount"
+                          value={amount}
+                          onChange={(e) => setAmount(e.target.value)}
+                          className="hidden-input"
+                        />
                       </div>
                     </Col>
                     <Col lg='6'>
@@ -179,22 +197,24 @@ const SignPage = () => {
                         <label htmlFor='password'>Create Password</label>
                         <div className='password'>
                           <input
-                            required
+                            required={true}
                             type={showPassword ? 'text' : 'password'}
-                            {...register('password', { required: true })}
+                            // {...register('password', { required: true })}
+                            name="password"
+                            value={password}
+                            onChange={(e) => setPassword(e.target.value)}
                             placeholder='Your password'
                           />
                           <span onClick={handleShowPassword}>show</span>
                         </div>
-                        {errors.password && <span>This field is required</span>}
                       </div>
                     </Col>
                   </Row>
-                </div> */}
-              ) : null}
+                </div>
+              
 
-              {stepTwo ? (
-                {/* <div>
+              
+                <div>
                   <p className='sub_title'>Contact details</p>
                   <Row>
                     <Col lg='12'>
@@ -202,11 +222,13 @@ const SignPage = () => {
                         <label htmlFor='address'>Residential Address</label>
                         <input
                           type='text'
-                          {...register('address', { required: true })}
+                          // {...register('address', { required: true })}
+                          name="address"
+                          value={address}
+                          onChange={(e) => setAddress(e.target.value)}
                           placeholder='Your Residential address'
-                          required
+                          required={true}
                         />
-                        {errors.address && <span>This field is required</span>}
                       </div>
                     </Col>
                     <Col lg='6'>
@@ -214,10 +236,12 @@ const SignPage = () => {
                         <label htmlFor='dob'>Date of Birth</label>
                         <input
                           type='date'
-                          required
-                          {...register('dob', { required: true })}
+                          required={true}
+                          // {...register('dob', { required: true })}
+                          name="dob"
+                          value={dob}
+                          onChange={(e) => setDob(e.target.value)}
                         />
-                        {errors.dob && <span>This field is required</span>}
                       </div>
                     </Col>
                     <Col lg='6'>
@@ -225,23 +249,26 @@ const SignPage = () => {
                         <label htmlFor='phone'>Cell Phone</label>
                         <input
                           type='phone'
-                          {...register('phone', { required: true })}
+                          // {...register('phone', { required: true })}
+                          name="phone"
+                          value={phone}
+                          onChange={(e) => setPhone(e.target.value)}
                           placeholder='Your Cell Number'
-                          required
+                          required={true}
                         />
-                        {errors.phone && <span>This field is required</span>}
                       </div>
                     </Col>
                     <Col lg='4'>
                       <div className='input-group'>
                         <label htmlFor='gender'>Gender *</label>
-                        <select {...register('gender', { required: true })} required>
-                          <option data-display='Select Title'>Gender</option>
+                        <select name="gender"
+                          value={gender}
+                          onChange={(e) => setGender(e.target.value)} required={true}>
+                          <option value="" disabled data-display='Select Title'>Gender</option>
                           <option value='male'>Male</option>
                           <option value='female'>female.</option>
                           <option value='others'>Others.</option>
                         </select>
-                        {errors.gender && <span>This field is required</span>}
                       </div>
                     </Col>
                     <Col lg='8'>
@@ -249,11 +276,14 @@ const SignPage = () => {
                         <label htmlFor='email'>Email</label>
                         <input
                           type='email'
-                          {...register('email', { required: true })}
+                          // {...register('email', { required: true })}
+                          name="email"
+                          value={email}
+                          onChange={(e) => setEmail(e.target.value)}
                           placeholder='Your email address'
-                          required
+                          required={true}
                         />
-                        {errors.email && <span>This field is required</span>}
+                        {isRequired && <span>This field is required</span>}
                       </div>
                     </Col>
 
@@ -262,9 +292,11 @@ const SignPage = () => {
                         <label htmlFor='nationality'>
                           Nationality / Citizenship *
                         </label>
-                        <select {...register('nationality')} required>
-                          <option data-display='Choose your country'>
-                            Countries
+                        <select name="nationality"
+                          value={nationality}
+                          onChange={(e) => setNationality(e.target.value)} required={true}>
+                          <option value="" disabled>
+                          Choose your country
                           </option>
                           <option value='Afghanistan'>Afghanistan</option>
                           <option value='Albania '>Albania</option>
@@ -600,27 +632,25 @@ const SignPage = () => {
                           <option value='Zambia'>Zambia</option>
                           <option value='Zimbabwe'>Zimbabwe</option>
                         </select>
-                        {errors.nationality && (
-                          <span>This field is required</span>
-                        )}
-                      </div>
+                      </div> 
                     </Col>
                   </Row>
-                </div> */}
-              ) : null}
+                </div>
 
-              {stepThree ? (
-                {/* <>
+              
+                <>
                   <p className='sub_title'>Identification</p>
                   <Row>
                     <Col xl='6'>
                       <div className='formControl'>
                         <label htmlFor='accountType'>Account Type</label>
                         <select
-                          {...register('accountType', { required: true })}
-                          required
+                          name="accountType"
+                          value={accountType}
+                          onChange={(e) => setAccountType(e.target.value)}
+                          required={true}
                         >
-                          <option>Choose Account Type</option>
+                          <option value="" disabled >Choose Account Type</option>
                           <option value='Current'>Current Account</option>
                           <option value='Savings'>Savings Account</option>
                           <option value='Salary'>Salary Account</option>
@@ -628,16 +658,15 @@ const SignPage = () => {
                           <option value='Salary'>Loan Account</option>
                           <option value='Salary'>Offshore Account</option>
                         </select>
-                        {errors.accountType && (
-                          <span>This field is required</span>
-                        )}
                       </div>
                     </Col>
                     <Col xl='6'>
                       <div className='formControl'>
                         <label htmlFor='currency'>Currency</label>
-                        <select {...register('currency', { required: true })} required>
-                          <option>Choose Currency</option>
+                        <select name="currency"
+                          value={currency}
+                          onChange={(e) => setCurrency(e.target.value)} required={true}>
+                          <option value="" disabled >Choose Currency</option>
                           <option value='USD'>USD</option>
                           <option value='EURO'>EURO</option>
                           <option value='POUNDS'>POUNDS</option>
@@ -649,20 +678,22 @@ const SignPage = () => {
                           <option value='SZL'>SZL</option>
                           <option value='LSL'>LSL</option>
                         </select>
-                        {errors.currency && <span>This field is required</span>}
+                        {isRequired && <span>This field is required</span>}
                       </div>
                     </Col>
                     <Col xl='6'>
                       <div className='formControl'>
                         <label htmlFor='email'>Identity Type</label>
-                        <select {...register('idType', { required: true })} required>
+                        <select name="idType"
+                          value={idType}
+                          onChange={(e) => setIdType(e.target.value)} required={true}>
+                          <option value="" disabled>Choose ID</option>
                           <option value='passport'>Passport</option>
                           <option value='id'>ID</option>
                           <option value='Drivers licence'>
                             Drivers licence
                           </option>
                         </select>
-                        {errors.idType && <span>This field is required</span>}
                       </div>
                     </Col>
                     <Col lg='12'>
@@ -671,20 +702,17 @@ const SignPage = () => {
                           Upload a valid Government issued Identification:
                         </label>
                         <input
-                          required
+                          required={true}
                           type='file'
-                          {...register('passportImg', { required: true })}
-                          name='passportImg'
+                          onChange={uploadFileHandler}
+                          name='image'
                         />
-                        {errors.passportImg && (
-                          <span>This field is required</span>
-                        )}
                       </div>
                     </Col>
                   </Row>
-                </> */}
-              ) : null}
-              <button className='login-btn'>
+                </>
+              {error ? <div className='errorMessage'>User already exist</div> : null}
+              <button type="submit" className='login-btn'>
                 {isLoading ? 'Creating Account...' : 'Create Account'}
               </button>
             </form>

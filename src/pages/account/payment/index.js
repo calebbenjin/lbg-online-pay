@@ -211,7 +211,7 @@ const SupportPage = ({ user, token }) => {
                 </div>
               </form>
               {!isSuccessful ? (
-                <button onClick={handleVerify} className='paymentBtn'>
+                <button onClick={handleVerify} className='paymentBtnOutline'>
                   {isLoading ? (
                     <>
                       <Spinner

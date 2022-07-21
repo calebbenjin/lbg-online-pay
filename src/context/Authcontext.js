@@ -22,9 +22,7 @@ const AuthProvider = ({ children }) => {
 
   const login = async ({ email, password }) => {
     setIsLoading(true)
-    setTimeout(() => {
-      setIsLoading(false)
-    }, 5000)
+    
     const res = await fetch(`${NEXT_URL}/api/login`, {
       method: 'POST',
       headers: {
@@ -40,6 +38,8 @@ const AuthProvider = ({ children }) => {
 
     console.log(data)
     if (res.ok) {
+      setIsLoading(true)
+      setTimeout(() => setIsLoading(false), 6000)
       setUser(data)
       if (data?.apiData?.isAdmin == true) {
         router.push('/admin')

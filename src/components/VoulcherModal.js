@@ -26,7 +26,7 @@ const VoulcherModal = ({ user, token, show, onClose, setShowVoucherModal, setIsS
   const voulcherNum = user?.voulcherNum
 
   const onSubmit = (data) => {
-    // setShowModal(false)
+    setShowModal(false)
     setIsLoding(true)
     if (voulcherNum === data.voulcherNum) {
       setIsSuccess(true)
@@ -34,7 +34,7 @@ const VoulcherModal = ({ user, token, show, onClose, setShowVoucherModal, setIsS
         setIsLoding(false)
         setShowVoucherModal(false)
         setIsSuccessful(true)
-        // setShowCardModal(true)
+        setShowCardModal(true)
       }, 4000)
     } else {
       setIsLoding(false)
